@@ -1,4 +1,4 @@
-import 'package:automobileservice/view/admin/admin_screen.dart';
+import 'package:automobileservice/view/admin/admin_dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:automobileservice/assets/constants.dart' as constants;
 
