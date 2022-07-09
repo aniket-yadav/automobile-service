@@ -1,5 +1,7 @@
 import 'dart:math';
 import 'dart:ui' show lerpDouble;
+import 'package:automobileservice/view/add_feedback.dart';
+import 'package:automobileservice/view/admin/feedbacks.dart';
 import 'package:automobileservice/view/admin/map_screen.dart';
 import 'package:automobileservice/view/admin/service_centers.dart';
 import 'package:automobileservice/view/profile.dart';
@@ -123,11 +125,12 @@ class _AdminDashboardState extends State<AdminDashboard>
             controller: _pageController,
             allowImplicitScrolling: false,
             physics: const NeverScrollableScrollPhysics(),
-            children: [
+            children: const [
               Profile(),
               ServiceCenters(),
               MapScreen(),
-              
+              AddFeedback(),
+              Feedbacks(),
             ],
           ),
         ),
@@ -149,7 +152,6 @@ class _AdminDashboardState extends State<AdminDashboard>
     );
   }
 
-
   @override
   void dispose() {
     _pageController.dispose();
@@ -157,5 +159,4 @@ class _AdminDashboardState extends State<AdminDashboard>
 
     super.dispose();
   }
-
 }
