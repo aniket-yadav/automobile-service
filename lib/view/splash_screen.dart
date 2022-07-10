@@ -1,4 +1,4 @@
-import 'package:automobileservice/view/admin/admin_dashboard.dart';
+import 'package:automobileservice/view/login.dart';
 import 'package:flutter/material.dart';
 import 'package:automobileservice/assets/constants.dart' as constants;
 
@@ -14,7 +14,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     Future.delayed(const Duration(seconds: 2), () {
-      Navigator.of(context).pushNamed(AdminDashboard.routeName);
+      Navigator.of(context).pushNamed(Login.routeName);
     });
     super.initState();
   }
