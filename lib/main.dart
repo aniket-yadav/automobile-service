@@ -2,6 +2,7 @@ import 'package:automobileservice/assets/custom_theme.dart';
 import 'package:automobileservice/controller/data_controller.dart';
 import 'package:automobileservice/firebase_options.dart';
 import 'package:automobileservice/route/routes.dart';
+import 'package:automobileservice/utils/global_variable.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -27,6 +28,7 @@ class AutoMobileService extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => DataController()),
       ],
       child: MaterialApp(
+        navigatorKey: GlobalVariable.navState,
         routes: routes,
         debugShowCheckedModeBanner: false,
         theme: customTheme,

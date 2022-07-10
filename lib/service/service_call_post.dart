@@ -1,6 +1,10 @@
+import 'package:automobileservice/utils/global_variable.dart';
 import 'package:http/http.dart' as http;
 
-Future<http.Response> addFeedbackService(Map<String, dynamic> body) async {
+Future<http.Response> serviceCallPost({
+  required Map<String, dynamic> body,
+  required String path,
+}) async {
   var parts = [];
   body.forEach((key, value) {
     parts.add('${Uri.encodeQueryComponent(key)}='
@@ -9,11 +13,11 @@ Future<http.Response> addFeedbackService(Map<String, dynamic> body) async {
   var formData = parts.join('&');
   var response = await http.post(
     Uri.https(
-      "automobileservice.tech",
-      "api/add_feedback.php",
+      GlobalVariable.baseAddress,
+      path,
     ),
     headers: {
-      "Content-Type": "application/x-www-form-urlencoded", 
+      "Content-Type": "application/x-www-form-urlencoded",
     },
     body: formData,
   );

@@ -1,7 +1,81 @@
-import 'package:automobileservice/service/add_feedback_service.dart';
+import 'dart:convert';
+
+import 'package:automobileservice/enum/roles.dart';
+import 'package:automobileservice/model/response_model.dart';
+import 'package:automobileservice/model/user_model.dart';
+import 'package:automobileservice/service/service_call_get.dart';
+import 'package:automobileservice/service/service_call_post.dart';
+import 'package:automobileservice/utils/global_variable.dart';
+import 'package:automobileservice/utils/session_manager.dart';
+import 'package:automobileservice/utils/snackbar.dart';
 import 'package:flutter/foundation.dart';
+import 'package:automobileservice/service/services.dart' as services;
 
 class DataController with ChangeNotifier {
+  User _user = User();
+
+  set user(User value) {
+    _user = value;
+    notifyListeners();
+  }
+
+  User get user => _user;
+
+  getUser() async {
+    user = User.fromJson(jsonDecode(await SessionManager.getUser()));
+  }
+
+  void login({required String username, required String password}) async {
+    Map<String, dynamic> body = {
+      "username": username,
+      'password': password,
+    };
+    print("object");
+    var res = await serviceCallPost(body: body, path: services.login);
+    print(res.body);
+    print(res.statusCode);
+    print(body);
+    if (res.statusCode == 200) {
+      Response response = Response.fromJson(jsonDecode(res.body));
+      if (response.success == true) {
+        SessionManager.saveRole(jsonDecode(res.body)['role']);
+        fetchProfile(
+            userid: jsonDecode(res.body)['userid'],
+            role: jsonDecode(res.body)['role']);
+        snackBar(
+            response.message ?? '', GlobalVariable.navState.currentContext!);
+      }
+    }
+  }
+
+  void fetchProfile({required String userid, required String role}) async {
+    String role = await SessionManager.getRole();
+    String endPoint = '';
+    if (role == Role.admin.name) {
+      endPoint = services.getAdmin;
+    } else if (role == Role.customer.name) {
+      endPoint = services.getCustomer;
+    } else if (role == Role.manager.name) {
+      endPoint = services.getManager;
+    }
+    if (endPoint.isEmpty) {
+      return;
+    }
+
+    Map<String, dynamic> body = {
+      "userid": userid,
+    };
+
+    var res = await serviceCallPost(body: body, path: endPoint);
+    print(res.body);
+    print(res.statusCode);
+    if (res.statusCode == 200) {
+      print(res.body);
+      SessionManager.saveUser(jsonEncode(jsonDecode(res.body)['data']));
+      getUser();
+    }
+  }
+
   void addFeedback(
       {required String comment,
       required int rate,
@@ -13,11 +87,17 @@ class DataController with ChangeNotifier {
       "rate": rate.toString(),
       "email": email,
     };
-
-    print("ds");
-    var res = await addFeedbackService(body);
-
+    var res = await serviceCallPost(
+      body: body,
+      path: services.addFeedbackService,
+    );
     print(res.body);
     print(res.statusCode);
+  }
+
+  getFeedbacks() async {
+    var res = await serviceCallGet(path: services.getFeedbacks);
+    print(res.statusCode);
+    print(res.body);
   }
 }
