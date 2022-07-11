@@ -6,7 +6,7 @@ import 'dart:async';
 
 class MapScreen extends StatefulWidget {
   const MapScreen({Key? key}) : super(key: key);
-
+  static const routeName = "/mapScreen";
   @override
   State<MapScreen> createState() => _MapScreenState();
 }

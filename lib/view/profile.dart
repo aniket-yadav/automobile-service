@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class Profile extends StatefulWidget {
-  const Profile({Key? key}) : super(key: key);
-
+  final VoidCallback openDrawer;
+  const Profile({Key? key, required this.openDrawer}) : super(key: key);
+  static const routeName = "/profile";
   @override
   State<Profile> createState() => _ProfileState();
 }
@@ -12,6 +11,14 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      appBar: AppBar(
+          leading: IconButton(
+        icon: const Icon(Icons.menu),
+        onPressed: () {
+          widget.openDrawer();
+        },
+      )),
+    );
   }
 }

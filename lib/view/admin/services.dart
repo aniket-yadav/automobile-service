@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class Services extends StatefulWidget {
   const Services({Key? key}) : super(key: key);
-
+  static const routeName = "/services";
   @override
   State<Services> createState() => _ServicesState();
 }

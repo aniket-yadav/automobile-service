@@ -1,10 +1,10 @@
 import 'package:automobileservice/enum/roles.dart';
 import 'package:automobileservice/utils/global_variable.dart';
 import 'package:automobileservice/utils/session_manager.dart';
-import 'package:automobileservice/view/admin/admin_dashboard.dart';
-import 'package:automobileservice/view/customer/customer_dashboard.dart';
+import 'package:automobileservice/view/admin/admin_main_screen.dart';
+import 'package:automobileservice/view/customer/customer_main_screen.dart';
 import 'package:automobileservice/view/login.dart';
-import 'package:automobileservice/view/manager/manager_dashboard.dart';
+import 'package:automobileservice/view/manager/manager_main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:automobileservice/assets/images.dart' as icons;
 
@@ -32,16 +32,16 @@ class _SplashScreenState extends State<SplashScreen> {
     if (hasUser) {
       if (role == Role.admin.name) {
         Navigator.of(GlobalVariable.navState.currentContext!)
-            .pushReplacementNamed(AdminDashboard.routeName);
+            .pushReplacementNamed(AdminMainScreen.routeName);
       } else if (role == Role.customer.name) {
         Navigator.of(GlobalVariable.navState.currentContext!)
-            .pushReplacementNamed(CustomerDashboard.routeName);
+            .pushReplacementNamed(CustomerMainScreen.routeName);
       } else if (role == Role.manager.name) {
         Navigator.of(GlobalVariable.navState.currentContext!)
-            .pushReplacementNamed(ManagerDashboard.routeName);
+            .pushReplacementNamed(ManagerMainScreen.routeName);
       }
     } else {
-       Navigator.of(GlobalVariable.navState.currentContext!)
+      Navigator.of(GlobalVariable.navState.currentContext!)
           .pushReplacementNamed(Login.routeName);
     }
   }

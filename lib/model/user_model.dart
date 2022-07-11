@@ -10,7 +10,7 @@ class User {
   String? district;
   String? pincode;
   Uint8List? image;
-
+  String? role;
   User({
     this.name,
     this.mobile,
@@ -20,10 +20,12 @@ class User {
     this.district,
     this.image,
     this.pincode,
+    this.role,
   });
 
   factory User.fromJson(Map<String, dynamic>? json) {
     return User(
+      role: json?['role'],
         address: json?['address'],
         city: json?['city'],
         district: json?['district'],
@@ -38,6 +40,7 @@ class User {
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> temp = {
+      'role':role, 
       'address': address,
       'city': city,
       'district': district,

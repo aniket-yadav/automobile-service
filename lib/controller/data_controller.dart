@@ -8,8 +8,15 @@ import 'package:automobileservice/service/service_call_post.dart';
 import 'package:automobileservice/utils/global_variable.dart';
 import 'package:automobileservice/utils/session_manager.dart';
 import 'package:automobileservice/utils/snackbar.dart';
-import 'package:flutter/foundation.dart';
+
+import 'package:automobileservice/view/admin/admin_main_screen.dart';
+
+import 'package:automobileservice/view/customer/customer_main_screen.dart';
+
+import 'package:automobileservice/view/manager/manager_main_screen.dart';
+
 import 'package:automobileservice/service/services.dart' as services;
+import 'package:flutter/material.dart';
 
 class DataController with ChangeNotifier {
   User _user = User();
@@ -38,10 +45,19 @@ class DataController with ChangeNotifier {
     if (res.statusCode == 200) {
       Response response = Response.fromJson(jsonDecode(res.body));
       if (response.success == true) {
-        SessionManager.saveRole(jsonDecode(res.body)['role']);
-        fetchProfile(
-            userid: jsonDecode(res.body)['userid'],
-            role: jsonDecode(res.body)['role']);
+        var role = jsonDecode(res.body)['role'];
+        SessionManager.saveRole(role);
+        fetchProfile(userid: role, role: jsonDecode(res.body)['role']);
+        if (role == Role.admin.name) {
+          Navigator.of(GlobalVariable.navState.currentContext!)
+              .pushReplacementNamed(AdminMainScreen.routeName);
+        } else if (role == Role.customer.name) {
+          Navigator.of(GlobalVariable.navState.currentContext!)
+              .pushReplacementNamed(CustomerMainScreen.routeName);
+        } else if (role == Role.manager.name) {
+          Navigator.of(GlobalVariable.navState.currentContext!)
+              .pushReplacementNamed(ManagerMainScreen.routeName);
+        }
         snackBar(
             response.message ?? '', GlobalVariable.navState.currentContext!);
       }

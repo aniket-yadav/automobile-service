@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 
 class AddFeedback extends StatefulWidget {
   const AddFeedback({Key? key}) : super(key: key);
-
+  static const routeName = "/addFeedback";
   @override
   State<AddFeedback> createState() => _AddFeedbackState();
 }
