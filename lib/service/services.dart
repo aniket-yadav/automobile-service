@@ -6,3 +6,5 @@ const getManager = "api/get_manager.php";
 const getCustomer = "api/get_customer.php";
 const resetPassword = "api/reset_password.php";
 const regiterCustomerService = "api/register_customer.php";
+const uploadProfilePhoto = "api/upload_photo.php";
+const changePasswordService = "api/change_password.php";

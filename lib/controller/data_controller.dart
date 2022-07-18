@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:automobileservice/enum/roles.dart';
+import 'package:automobileservice/model/feedback_model.dart';
+import 'package:automobileservice/model/feedback_response.dart';
 import 'package:automobileservice/model/response_model.dart';
 import 'package:automobileservice/model/user_model.dart';
 import 'package:automobileservice/service/service_call_get.dart';
@@ -46,8 +48,9 @@ class DataController with ChangeNotifier {
       Response response = Response.fromJson(jsonDecode(res.body));
       if (response.success == true) {
         var role = jsonDecode(res.body)['role'];
+        var userid = jsonDecode(res.body)['userid'];
         SessionManager.saveRole(role);
-        fetchProfile(userid: role, role: jsonDecode(res.body)['role']);
+        fetchProfile(userid: userid, role: role);
         if (role == Role.admin.name) {
           Navigator.of(GlobalVariable.navState.currentContext!)
               .pushReplacementNamed(AdminMainScreen.routeName);
@@ -64,8 +67,7 @@ class DataController with ChangeNotifier {
     }
   }
 
-  void fetchProfile({required String userid, required String role}) async {
-    String role = await SessionManager.getRole();
+  void fetchProfile({String? userid, required String role}) async {
     String endPoint = '';
     if (role == Role.admin.name) {
       endPoint = services.getAdmin;
@@ -79,7 +81,7 @@ class DataController with ChangeNotifier {
     }
 
     Map<String, dynamic> body = {
-      "userid": userid,
+      "userid": userid ?? user.userid,
     };
 
     var res = await serviceCallPost(body: body, path: endPoint);
@@ -111,12 +113,36 @@ class DataController with ChangeNotifier {
     print(res.statusCode);
   }
 
-  getFeedbacks() async {
-    var res = await serviceCallGet(path: services.getFeedbacks);
-    print(res.statusCode);
-    print(res.body);
+  List<FeedbackModel> _feedBacks = [];
+
+  List<FeedbackModel> get feedBacks => _feedBacks;
+
+  set feedBacks(List<FeedbackModel> value) {
+    _feedBacks = value;
+    notifyListeners();
   }
 
+  getFeedbacks() async {
+    var res = await serviceCallGet(path: services.getFeedbacks);
+
+    print(res.statusCode);
+    print(res.body);
+    if (res.statusCode == 200) {
+      FeedbackResponse feedbackResponse =
+          FeedbackResponse.fromJson(jsonDecode(res.body));
+      if (feedbackResponse.success == true) {
+        if (feedbackResponse.data != null) {
+          feedBacks = feedbackResponse.data ?? [];
+        } else {
+          feedBacks = [];
+        }
+      } else {
+        feedBacks = [];
+      }
+    } else {
+      feedBacks = [];
+    }
+  }
 
   //  reset password
   void resetPassword({required String role, required String email}) async {
@@ -142,7 +168,10 @@ class DataController with ChangeNotifier {
     }
   }
 
-void registerCutomer({required String name,required String email,required String mobile})async{
+  void registerCutomer(
+      {required String name,
+      required String email,
+      required String mobile}) async {
     Map<String, dynamic> body = {
       "name": name,
       "email": email,
@@ -158,10 +187,55 @@ void registerCutomer({required String name,required String email,required String
     print(res.body);
 
     if (res.statusCode == 200) {
-      
       Response response = Response.fromJson(jsonDecode(res.body));
       snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
     }
-}
+  }
 
+  uploadPhoto({String? image, required String role}) async {
+    Map<String, dynamic> body = {
+      "role": role,
+      "image": image ?? '',
+      "userid": user.userid,
+    };
+
+    var res = await serviceCallPost(
+      body: body,
+      path: services.uploadProfilePhoto,
+    );
+
+    if (res.statusCode == 200) {
+      fetchProfile(role: role);
+      Response response = Response.fromJson(jsonDecode(res.body));
+      snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
+    }
+  }
+
+//  change password
+  changePassword({
+    required String role,
+    required String oldPassword,
+    required String newPassword,
+  }) async {
+    Map<String, dynamic> body = {
+      "role": role,
+      "userid": user.userid,
+      "oldpassword": oldPassword,
+      "newpassword": newPassword,
+    };
+
+    var res = await serviceCallPost(
+      body: body,
+      path: services.changePasswordService,
+    );
+
+    print(res.statusCode);
+    print(res.body);
+
+    if (res.statusCode == 200) {
+      fetchProfile(role: role);
+      Response response = Response.fromJson(jsonDecode(res.body));
+      snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
+    }
+  }
 }

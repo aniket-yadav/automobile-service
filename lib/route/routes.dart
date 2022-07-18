@@ -1,3 +1,4 @@
+import 'package:automobileservice/change_password.dart';
 import 'package:automobileservice/menu/manager_menu_screen.dart';
 
 import 'package:automobileservice/view/admin/admin_main_screen.dart';
@@ -19,4 +20,5 @@ final Map<String, Widget Function(BuildContext)> routes = {
   Feedbacks.routeName: (_) => const Feedbacks(),
   ForgotPassword.routeName: (_) => const ForgotPassword(),
   CustomerRegister.routeName: (_) => const CustomerRegister(),
+  ChangePassword.routeName: (_) => const ChangePassword(),
 };

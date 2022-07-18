@@ -1,6 +1,3 @@
-import 'dart:convert';
-
-
 class User {
   String? name;
   String? mobile;
@@ -11,6 +8,7 @@ class User {
   String? pincode;
   String? image;
   String? role;
+  String? userid;
   User({
     this.name,
     this.mobile,
@@ -21,31 +19,35 @@ class User {
     this.image,
     this.pincode,
     this.role,
+    this.userid,
   });
 
   factory User.fromJson(Map<String, dynamic>? json) {
     return User(
       role: json?['role'],
-        address: json?['address'],
-        city: json?['city'],
-        district: json?['district'],
-        email: json?['email'],
-        mobile: json?['mobile'],
-        name: json?['name'],
-        pincode: json?['pincode'],
-        image:json?['image']);
+      address: json?['address'],
+      city: json?['city'],
+      district: json?['district'],
+      email: json?['email'],
+      mobile: json?['mobile'],
+      name: json?['name'],
+      pincode: json?['pincode'],
+      image: json?['image'],
+      userid: json?['adminid'] ?? json?['customerid'] ?? json?['managerid'],
+    );
   }
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> temp = {
-      'role':role, 
+      'role': role,
       'address': address,
       'city': city,
       'district': district,
       'email': email,
       'mobile': mobile,
       'name': name,
-      'image': image ,
+      'image': image,
+      'userid':userid,
     };
     temp.removeWhere((key, value) => value == null);
 

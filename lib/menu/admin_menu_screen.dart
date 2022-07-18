@@ -1,6 +1,9 @@
+import 'package:automobileservice/change_password.dart';
 import 'package:automobileservice/menu/menu_header.dart';
+import 'package:automobileservice/utils/session_manager.dart';
 import 'package:automobileservice/view/admin/feedbacks.dart';
 import 'package:automobileservice/view/admin/map_screen.dart';
+import 'package:automobileservice/view/login.dart';
 import 'package:flutter/material.dart';
 
 class AdminMenuScreen extends StatefulWidget {
@@ -210,6 +213,35 @@ class _AdminMenuScreenState extends State<AdminMenuScreen> {
                       ),
                     ),
                   ),
+                   InkWell(
+                    onTap: () {
+                      widget.closeDrawer!();
+                      Navigator.of(context).pushNamed(ChangePassword.routeName);
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 15.0,
+                        vertical: 10.0,
+                      ),
+                      child: Row(
+                        children: const [
+                          Icon(
+                            Icons.security,
+                            color: Color(0xFF107189),
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Text(
+                            "Change Password",
+                            style: TextStyle(
+                              fontSize: 15.0,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                   InkWell(
                     onTap: () {
                       widget.closeDrawer!();
@@ -239,27 +271,36 @@ class _AdminMenuScreenState extends State<AdminMenuScreen> {
                       ),
                     ),
                   ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 15.0,
-                      vertical: 10.0,
-                    ),
-                    child: Row(
-                      children: const [
-                        Icon(
-                          Icons.logout,
-                          color: Color(0xFF107189),
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Text(
-                          "logout",
-                          style: TextStyle(
-                            fontSize: 15.0,
+                  InkWell(
+                    onTap: () async {
+                      SessionManager.signOut();
+                      if (!(await SessionManager.hasUser())) {
+                        Navigator.of(context).pushNamedAndRemoveUntil(
+                            Login.routeName, (Route<dynamic> route) => false);
+                      }
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 15.0,
+                        vertical: 10.0,
+                      ),
+                      child: Row(
+                        children: const [
+                          Icon(
+                            Icons.logout,
+                            color: Color(0xFF107189),
                           ),
-                        ),
-                      ],
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Text(
+                            "logout",
+                            style: TextStyle(
+                              fontSize: 15.0,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],
