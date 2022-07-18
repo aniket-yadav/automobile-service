@@ -1,4 +1,5 @@
 import 'package:automobileservice/controller/data_controller.dart';
+import 'package:automobileservice/view/forgot_password.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -121,6 +122,21 @@ class _LoginState extends State<Login> {
                                 ),
                               ),
                               obscureText: _obscureText,
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              Navigator.of(context)
+                                  .pushNamed(ForgotPassword.routeName);
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.all(10),
+                              child: const Text(
+                                "Forgot password",
+                                style: TextStyle(
+                                  fontSize: 14.0,
+                                ),
+                              ),
                             ),
                           ),
                           Container(

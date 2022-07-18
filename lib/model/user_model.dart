@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:typed_data';
+
 
 class User {
   String? name;
@@ -9,7 +9,7 @@ class User {
   String? city;
   String? district;
   String? pincode;
-  Uint8List? image;
+  String? image;
   String? role;
   User({
     this.name,
@@ -33,9 +33,7 @@ class User {
         mobile: json?['mobile'],
         name: json?['name'],
         pincode: json?['pincode'],
-        image: (json?['image'] != null && json!['image'].toString().isNotEmpty)
-            ? base64Decode(json['image'])
-            : null);
+        image:json?['image']);
   }
 
   Map<String, dynamic> toJson() {
@@ -47,7 +45,7 @@ class User {
       'email': email,
       'mobile': mobile,
       'name': name,
-      'image': image != null ? base64Encode(image!) : null,
+      'image': image ,
     };
     temp.removeWhere((key, value) => value == null);
 

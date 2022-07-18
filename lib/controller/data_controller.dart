@@ -116,4 +116,31 @@ class DataController with ChangeNotifier {
     print(res.statusCode);
     print(res.body);
   }
+
+
+  //  reset password
+  void resetPassword({required String role, required String email}) async {
+    Map<String, dynamic> body = {
+      "role": role,
+      "email": email,
+    };
+
+    var res = await serviceCallPost(
+      body: body,
+      path: services.resetPassword,
+    );
+
+    print(res.statusCode);
+    print(res.body);
+
+    if (res.statusCode == 200) {
+      Response response = Response.fromJson(jsonDecode(res.body));
+      snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
+      if (response.success == true) {
+        Navigator.of(GlobalVariable.navState.currentContext!).pop();
+      }
+    }
+  }
+
+
 }

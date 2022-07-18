@@ -3,6 +3,8 @@ import 'package:automobileservice/menu/manager_menu_screen.dart';
 import 'package:automobileservice/view/admin/admin_main_screen.dart';
 import 'package:automobileservice/view/admin/feedbacks.dart';
 import 'package:automobileservice/view/customer/customer_main_screen.dart';
+import 'package:automobileservice/view/customer/customer_register.dart';
+import 'package:automobileservice/view/forgot_password.dart';
 import 'package:automobileservice/view/login.dart';
 import 'package:automobileservice/view/manager/manager_main_screen.dart';
 import 'package:automobileservice/view/register.dart';
@@ -17,4 +19,6 @@ final Map<String, Widget Function(BuildContext)> routes = {
   Login.routeName: (_) => const Login(),
   Register.routeName: (_) => const Register(),
   Feedbacks.routeName: (_) => const Feedbacks(),
+  ForgotPassword.routeName: (_) => const ForgotPassword(),
+  CustomerRegister.routeName: (_) => const CustomerRegister(),
 };
