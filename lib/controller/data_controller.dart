@@ -142,5 +142,26 @@ class DataController with ChangeNotifier {
     }
   }
 
+void registerCutomer({required String name,required String email,required String mobile})async{
+    Map<String, dynamic> body = {
+      "name": name,
+      "email": email,
+      "mobile": mobile,
+    };
+
+    var res = await serviceCallPost(
+      body: body,
+      path: services.regiterCustomerService,
+    );
+
+    print(res.statusCode);
+    print(res.body);
+
+    if (res.statusCode == 200) {
+      
+      Response response = Response.fromJson(jsonDecode(res.body));
+      snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
+    }
+}
 
 }

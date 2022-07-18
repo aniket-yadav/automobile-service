@@ -1,4 +1,5 @@
 import 'package:automobileservice/controller/data_controller.dart';
+import 'package:automobileservice/view/customer/customer_register.dart';
 import 'package:automobileservice/view/forgot_password.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -173,7 +174,10 @@ class _LoginState extends State<Login> {
                             ),
                           ),
                           InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.of(context)
+                                  .pushNamed(CustomerRegister.routeName);
+                            },
                             child: Container(
                               alignment: Alignment.center,
                               child: const Text(

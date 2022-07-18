@@ -5,3 +5,4 @@ const getAdmin = "api/get_admin.php";
 const getManager = "api/get_manager.php";
 const getCustomer = "api/get_customer.php";
 const resetPassword = "api/reset_password.php";
+const regiterCustomerService = "api/register_customer.php";
