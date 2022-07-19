@@ -1,8 +1,12 @@
 import 'package:automobileservice/change_password.dart';
 import 'package:automobileservice/menu/menu_header.dart';
 import 'package:automobileservice/utils/session_manager.dart';
+import 'package:automobileservice/view/admin/customers.dart';
 import 'package:automobileservice/view/admin/feedbacks.dart';
+import 'package:automobileservice/view/admin/managers.dart';
 import 'package:automobileservice/view/admin/map_screen.dart';
+import 'package:automobileservice/view/admin/service_centers.dart';
+import 'package:automobileservice/view/admin/services.dart';
 import 'package:automobileservice/view/login.dart';
 import 'package:flutter/material.dart';
 
@@ -100,7 +104,7 @@ class _AdminMenuScreenState extends State<AdminMenuScreen> {
                   InkWell(
                     onTap: () {
                       widget.closeDrawer!();
-                      Navigator.of(context).pushNamed(Feedbacks.routeName);
+                      Navigator.of(context).pushNamed(ServiceCenters.routeName);
                     },
                     child: Container(
                       padding: const EdgeInsets.symmetric(
@@ -129,7 +133,7 @@ class _AdminMenuScreenState extends State<AdminMenuScreen> {
                   InkWell(
                     onTap: () {
                       widget.closeDrawer!();
-                      Navigator.of(context).pushNamed(Feedbacks.routeName);
+                      Navigator.of(context).pushNamed(Services.routeName);
                     },
                     child: Container(
                       padding: const EdgeInsets.symmetric(
@@ -158,7 +162,7 @@ class _AdminMenuScreenState extends State<AdminMenuScreen> {
                   InkWell(
                     onTap: () {
                       widget.closeDrawer!();
-                      Navigator.of(context).pushNamed(Feedbacks.routeName);
+                      Navigator.of(context).pushNamed(Managers.routeName);
                     },
                     child: Container(
                       padding: const EdgeInsets.symmetric(
@@ -187,7 +191,7 @@ class _AdminMenuScreenState extends State<AdminMenuScreen> {
                   InkWell(
                     onTap: () {
                       widget.closeDrawer!();
-                      Navigator.of(context).pushNamed(Feedbacks.routeName);
+                      Navigator.of(context).pushNamed(Customers.routeName);
                     },
                     child: Container(
                       padding: const EdgeInsets.symmetric(

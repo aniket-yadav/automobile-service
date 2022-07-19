@@ -10,16 +10,16 @@ ThemeData customTheme = ThemeData(
   primarySwatch: const MaterialColor(
     0xFF107189, // 0% comes in here, this will be color picked if no shade is selected when defining a Color property which doesn’t require a swatch.
     <int, Color>{
-      50: Color(0xff0e667b), //10%
-      100: Color(0xff0d5a6e), //20%
-      200: Color(0xff0b4f60), //30%
-      300: Color(0xff0a4452), //40%
-      400: Color(0xff083945), //50%
-      500: Color(0xff062d37), //60%
-      600: Color(0xff052229), //70%
-      700: Color(0xff03171b), //80%
-      800: Color(0xff020b0e), //90%
-      900: Color(0xff000000), //100%
+      50: Color(0xFF287f95), //10%
+      100: Color(0xFF408da1), //20%
+      200: Color(0xFF589cac), //30%
+      300: Color(0xFF70aab8), //40%
+      400: Color(0xFF88b8c4), //50%
+      500: Color(0xFF9fc6d0), //60%
+      600: Color(0xFFb7d4dc), //70%
+      700: Color(0xFFcfe3e7), //80%
+      800: Color(0xFFe7f1f3), //90%
+      900: Color(0xFFffffff), //100%
     },
   ),
   pageTransitionsTheme: PageTransitionsTheme(
@@ -28,7 +28,7 @@ ThemeData customTheme = ThemeData(
       TargetPlatform.iOS: CustomPageTransitionBuilder(),
     },
   ),
-   inputDecorationTheme: InputDecorationTheme(
+  inputDecorationTheme: InputDecorationTheme(
     contentPadding: const EdgeInsets.symmetric(
       horizontal: 15.0,
       vertical: 15.0,

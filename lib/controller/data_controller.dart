@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:automobileservice/enum/roles.dart';
+import 'package:automobileservice/model/customer_mode.dart';
+import 'package:automobileservice/model/customers_response.dart';
 import 'package:automobileservice/model/feedback_model.dart';
 import 'package:automobileservice/model/feedback_response.dart';
 import 'package:automobileservice/model/response_model.dart';
@@ -236,6 +238,37 @@ class DataController with ChangeNotifier {
       fetchProfile(role: role);
       Response response = Response.fromJson(jsonDecode(res.body));
       snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
+    }
+  }
+
+  List<CustomerModel> _customers = [];
+
+  List<CustomerModel> get customers => _customers;
+
+  set customers(List<CustomerModel> value) {
+    _customers = value;
+    notifyListeners();
+  }
+
+  getCustomers() async {
+    var res = await serviceCallGet(path: services.customersService);
+
+    print(res.statusCode);
+    print(res.body);
+    if (res.statusCode == 200) {
+      CustomersResponse customersResponse =
+          CustomersResponse.fromJson(jsonDecode(res.body));
+      if (customersResponse.success == true) {
+        if (customersResponse.data != null) {
+          customers = customersResponse.data ?? [];
+        } else {
+          customers = [];
+        }
+      } else {
+        customers = [];
+      }
+    } else {
+      customers = [];
     }
   }
 }

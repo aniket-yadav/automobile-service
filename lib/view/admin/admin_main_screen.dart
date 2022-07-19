@@ -1,6 +1,8 @@
+import 'package:automobileservice/controller/data_controller.dart';
 import 'package:automobileservice/menu/admin_menu_screen.dart';
 import 'package:automobileservice/view/profile.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AdminMainScreen extends StatefulWidget {
   const AdminMainScreen({Key? key}) : super(key: key);
@@ -22,6 +24,10 @@ class _AdminMainScreenState extends State<AdminMainScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       closeDrawer();
+      final dataController =
+          Provider.of<DataController>(context, listen: false);
+      dataController.getFeedbacks();
+      dataController.getCustomers();
     });
   }
 

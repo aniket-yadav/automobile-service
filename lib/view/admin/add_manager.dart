@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class AddManager extends StatefulWidget {
   const AddManager({Key? key}) : super(key: key);
@@ -12,6 +10,10 @@ class AddManager extends StatefulWidget {
 class _AddManagerState extends State<AddManager> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Add Manager"),
+      ),
+    );
   }
 }

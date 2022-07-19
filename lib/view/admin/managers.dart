@@ -1,6 +1,5 @@
+import 'package:automobileservice/view/admin/add_manager.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class Managers extends StatefulWidget {
   const Managers({Key? key}) : super(key: key);
@@ -12,6 +11,16 @@ class Managers extends StatefulWidget {
 class _ManagersState extends State<Managers> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Managers"),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).pushNamed(AddManager.routeName);
+        },
+        child: const Icon(Icons.add),
+      ),
+    );
   }
 }

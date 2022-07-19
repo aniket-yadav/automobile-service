@@ -12,6 +12,10 @@ class AddService extends StatefulWidget {
 class _AddServiceState extends State<AddService> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold();
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Add Service"),
+      ),
+    );
   }
 }

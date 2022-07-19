@@ -1,3 +1,4 @@
+import 'package:automobileservice/view/admin/add_service.dart';
 import 'package:flutter/material.dart';
 
 class Services extends StatefulWidget {
@@ -10,6 +11,16 @@ class Services extends StatefulWidget {
 class _ServicesState extends State<Services> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("services"),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).pushNamed(AddService.routeName);
+        },
+        child: const Icon(Icons.add),
+      ),
+    );
   }
 }
