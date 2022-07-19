@@ -10,3 +10,4 @@ const uploadProfilePhoto = "api/upload_photo.php";
 const changePasswordService = "api/change_password.php";
 const managersService = "api/managers.php";
 const customersService = "api/customers.php";
+const addManagerService = "api/add_manager.php";
