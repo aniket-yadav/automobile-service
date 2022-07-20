@@ -5,6 +5,8 @@ import 'package:automobileservice/model/customer_mode.dart';
 import 'package:automobileservice/model/customers_response.dart';
 import 'package:automobileservice/model/feedback_model.dart';
 import 'package:automobileservice/model/feedback_response.dart';
+import 'package:automobileservice/model/manager_model.dart';
+import 'package:automobileservice/model/managers_response.dart';
 import 'package:automobileservice/model/response_model.dart';
 import 'package:automobileservice/model/service_model.dart';
 import 'package:automobileservice/model/services_response.dart';
@@ -352,6 +354,37 @@ class DataController with ChangeNotifier {
       }
     } else {
       servicesList = [];
+    }
+  }
+
+  List<ManagerModel> _managers = [];
+
+  List<ManagerModel> get managers => _managers;
+
+  set managers(List<ManagerModel> value) {
+    _managers = value;
+    notifyListeners();
+  }
+
+  void getManagers() async {
+    var res = await serviceCallGet(path: services.managersService);
+
+    print(res.statusCode);
+    print(res.body);
+    if (res.statusCode == 200) {
+      ManagersResponse managersResponse =
+          ManagersResponse.fromJson(jsonDecode(res.body));
+      if (managersResponse.success == true) {
+        if (managersResponse.data != null) {
+          managers = managersResponse.data ?? [];
+        } else {
+          managers = [];
+        }
+      } else {
+        managers = [];
+      }
+    } else {
+      managers = [];
     }
   }
 }

@@ -25,7 +25,7 @@ class _ManagersState extends State<Managers> {
         child: const Icon(Icons.add),
       ),
       body: ListView.builder(
-          itemCount: dataController.customers.length,
+          itemCount: dataController.managers.length,
           itemBuilder: (context, index) {
             return Card(
               margin: const EdgeInsets.symmetric(
@@ -57,14 +57,14 @@ class _ManagersState extends State<Managers> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                dataController.customers[index].name ?? '',
+                                dataController.managers[index].name ?? '',
                                 style: const TextStyle(
                                   fontSize: 15.0,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
                               Text(
-                                dataController.customers[index].mobile ?? '',
+                                dataController.managers[index].mobile ?? '',
                                 style: const TextStyle(
                                   fontSize: 13.0,
                                   fontWeight: FontWeight.normal,

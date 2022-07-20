@@ -29,6 +29,7 @@ class _AdminMainScreenState extends State<AdminMainScreen> {
       dataController.getFeedbacks();
       dataController.getCustomers();
       dataController.getServices();
+      dataController.getManagers();
     });
   }
 
