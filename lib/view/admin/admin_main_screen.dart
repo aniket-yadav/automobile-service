@@ -28,6 +28,7 @@ class _AdminMainScreenState extends State<AdminMainScreen> {
           Provider.of<DataController>(context, listen: false);
       dataController.getFeedbacks();
       dataController.getCustomers();
+      dataController.getServices();
     });
   }
 

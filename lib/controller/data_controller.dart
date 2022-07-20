@@ -6,6 +6,8 @@ import 'package:automobileservice/model/customers_response.dart';
 import 'package:automobileservice/model/feedback_model.dart';
 import 'package:automobileservice/model/feedback_response.dart';
 import 'package:automobileservice/model/response_model.dart';
+import 'package:automobileservice/model/service_model.dart';
+import 'package:automobileservice/model/services_response.dart';
 import 'package:automobileservice/model/user_model.dart';
 import 'package:automobileservice/service/service_call_get.dart';
 import 'package:automobileservice/service/service_call_post.dart';
@@ -294,6 +296,62 @@ class DataController with ChangeNotifier {
       Response response = Response.fromJson(jsonDecode(res.body));
 
       snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
+    }
+  }
+
+  void saveService({
+    required String name,
+    required String charge,
+  }) async {
+    Map<String, dynamic> body = {
+      "name": name,
+      "charge": charge,
+    };
+
+    var res = await serviceCallPost(
+      body: body,
+      path: services.saveChargeService,
+    );
+
+    print(res.statusCode);
+    print(res.body);
+
+    if (res.statusCode == 200) {
+      Response response = Response.fromJson(jsonDecode(res.body));
+      getServices();
+      Navigator.of(GlobalVariable.navState.currentContext!).pop();
+      snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
+    }
+  }
+
+  List<ServiceModel> _servicesList = [];
+
+  List<ServiceModel> get servicesList => _servicesList;
+
+  set servicesList(List<ServiceModel> value) {
+    _servicesList = value;
+    notifyListeners();
+  }
+
+  getServices() async {
+    var res = await serviceCallGet(path: services.servicesList);
+
+    print(res.statusCode);
+    print(res.body);
+    if (res.statusCode == 200) {
+      ServicesResponse servicesResponse =
+          ServicesResponse.fromJson(jsonDecode(res.body));
+      if (servicesResponse.success == true) {
+        if (servicesResponse.data != null) {
+          servicesList = servicesResponse.data ?? [];
+        } else {
+          servicesList = [];
+        }
+      } else {
+        servicesList = [];
+      }
+    } else {
+      servicesList = [];
     }
   }
 }
