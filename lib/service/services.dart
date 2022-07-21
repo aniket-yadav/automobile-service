@@ -13,3 +13,4 @@ const customersService = "api/customers.php";
 const addManagerService = "api/add_manager.php";
 const saveChargeService = "api/save_service.php";
 const servicesList = "api/services.php";
+const saveServiceCenter = "api/add_service_center.php";

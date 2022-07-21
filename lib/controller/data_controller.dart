@@ -387,4 +387,39 @@ class DataController with ChangeNotifier {
       managers = [];
     }
   }
+
+  void saveServiceCenter({
+    String? name,
+    String? address,
+    String? district,
+    String? city,
+    String? pincode,
+    String? lat,
+    String? lng,
+  })async {
+     Map<String, dynamic> body = {
+       "name":name,
+     "address":address,
+     "district":district,
+     "city":city,
+     "pincode":pincode,
+     "lat":lat,
+     "lng":lng,
+    };
+
+    var res = await serviceCallPost(
+      body: body,
+      path: services.saveServiceCenter,
+    );
+
+    print(res.statusCode);
+    print(res.body);
+
+    if (res.statusCode == 200) {
+      Response response = Response.fromJson(jsonDecode(res.body));
+      getServices();
+      // Navigator.of(GlobalVariable.navState.currentContext!).pop();
+      snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
+    }
+  }
 }

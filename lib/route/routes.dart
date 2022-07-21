@@ -5,6 +5,7 @@ import 'package:automobileservice/view/admin/add_service.dart';
 import 'package:automobileservice/view/admin/add_service_center.dart';
 
 import 'package:automobileservice/view/admin/admin_main_screen.dart';
+import 'package:automobileservice/view/admin/center_selection_map.dart';
 import 'package:automobileservice/view/admin/customers.dart';
 import 'package:automobileservice/view/admin/feedbacks.dart';
 import 'package:automobileservice/view/admin/managers.dart';
@@ -37,4 +38,5 @@ final Map<String, Widget Function(BuildContext)> routes = {
   AddServiceCenter.routeName: (_) => const AddServiceCenter(),
   AddManager.routeName: (_) => const AddManager(),
   AddService.routeName: (_) => const AddService(),
+  CenterSelectionMap.routeName: (_) => const CenterSelectionMap(),
 };
