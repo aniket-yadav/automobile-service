@@ -18,11 +18,19 @@ class _CenterOnMapState extends State<CenterOnMap> {
 
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      centerLoc = ModalRoute.of(context)?.settings.arguments as LatLng?;
-    });
-
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {});
+    markPosition();
     super.initState();
+  }
+
+  markPosition() async {
+    controller = await _controller.future;
+    setState(() {
+      centerLoc = ModalRoute.of(context)?.settings.arguments as LatLng?;
+      if (centerLoc != null) {
+        controller?.moveCamera(CameraUpdate.newLatLng(centerLoc!));
+      }
+    });
   }
 
   @override
@@ -43,7 +51,7 @@ class _CenterOnMapState extends State<CenterOnMap> {
         mapType: MapType.normal,
         initialCameraPosition: CameraPosition(
           target: centerLoc ?? const LatLng(19.3, 72.8),
-          zoom: 14,
+          zoom: 8,
         ),
         onMapCreated: (GoogleMapController controller) {
           _controller.complete(controller);
