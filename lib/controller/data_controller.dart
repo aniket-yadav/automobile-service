@@ -396,15 +396,15 @@ class DataController with ChangeNotifier {
     String? pincode,
     String? lat,
     String? lng,
-  })async {
-     Map<String, dynamic> body = {
-       "name":name,
-     "address":address,
-     "district":district,
-     "city":city,
-     "pincode":pincode,
-     "lat":lat,
-     "lng":lng,
+  }) async {
+    Map<String, dynamic> body = {
+      "name": name,
+      "address": address,
+      "district": district,
+      "city": city,
+      "pincode": pincode,
+      "lat": lat,
+      "lng": lng,
     };
 
     var res = await serviceCallPost(
@@ -418,7 +418,7 @@ class DataController with ChangeNotifier {
     if (res.statusCode == 200) {
       Response response = Response.fromJson(jsonDecode(res.body));
       getServices();
-      // Navigator.of(GlobalVariable.navState.currentContext!).pop();
+      Navigator.of(GlobalVariable.navState.currentContext!).pop();
       snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
     }
   }
