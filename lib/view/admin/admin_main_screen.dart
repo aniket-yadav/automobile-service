@@ -30,6 +30,7 @@ class _AdminMainScreenState extends State<AdminMainScreen> {
       dataController.getCustomers();
       dataController.getServices();
       dataController.getManagers();
+      dataController.getServiceCenters();
     });
   }
 

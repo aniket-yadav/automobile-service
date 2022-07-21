@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:automobileservice/enum/roles.dart';
+import 'package:automobileservice/model/center_model.dart';
+import 'package:automobileservice/model/center_response.dart';
 import 'package:automobileservice/model/customer_mode.dart';
 import 'package:automobileservice/model/customers_response.dart';
 import 'package:automobileservice/model/feedback_model.dart';
@@ -420,6 +422,37 @@ class DataController with ChangeNotifier {
       getServices();
       Navigator.of(GlobalVariable.navState.currentContext!).pop();
       snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
+    }
+  }
+
+  List<CenterModel> _centers = [];
+
+  List<CenterModel> get centers => _centers;
+
+  set centers(List<CenterModel> value) {
+    _centers = value;
+    notifyListeners();
+  }
+
+  void getServiceCenters() async {
+    var res = await serviceCallGet(path: services.serviceCentersService);
+
+    print(res.statusCode);
+    print(res.body);
+    if (res.statusCode == 200) {
+      CenterResponse centerResponse =
+          CenterResponse.fromJson(jsonDecode(res.body));
+      if (centerResponse.success == true) {
+        if (centerResponse.data != null) {
+          centers = centerResponse.data ?? [];
+        } else {
+          centers = [];
+        }
+      } else {
+        centers = [];
+      }
+    } else {
+      centers = [];
     }
   }
 }
