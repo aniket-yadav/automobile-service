@@ -1,7 +1,8 @@
 import 'package:automobileservice/controller/data_controller.dart';
+import 'package:automobileservice/enum/roles.dart';
 import 'package:automobileservice/utils/snackbar.dart';
 import 'package:automobileservice/view/admin/add_service_center.dart';
-import 'package:automobileservice/view/admin/center_on_map.dart';
+import 'package:automobileservice/view/center_on_map.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
@@ -12,16 +13,19 @@ class ServiceCenters extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dataController = Provider.of<DataController>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Service centers"),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).pushNamed(AddServiceCenter.routeName);
-        },
-        child: const Icon(Icons.add),
-      ),
+      floatingActionButton: dataController.user.role == Role.admin.name
+          ? FloatingActionButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed(AddServiceCenter.routeName);
+              },
+              child: const Icon(Icons.add),
+            )
+          : null,
       body: ListView.builder(
           itemCount: dataController.centers.length,
           itemBuilder: (context, index) {

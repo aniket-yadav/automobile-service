@@ -102,23 +102,29 @@ class DataController with ChangeNotifier {
     }
   }
 
-  void addFeedback(
-      {required String comment,
-      required int rate,
-      required String email}) async {
+  void addFeedback({
+    required String comment,
+    required int rate,
+  }) async {
     Map<String, dynamic> body = {
       "comment": comment,
-      "author": "Test",
+      "author": user.name,
       "date": DateTime.now().toIso8601String().substring(0, 16),
       "rate": rate.toString(),
-      "email": email,
+      "email": user.email,
     };
     var res = await serviceCallPost(
       body: body,
       path: services.addFeedbackService,
     );
-    print(res.body);
-    print(res.statusCode);
+    
+    if (res.statusCode == 200) {
+      Response response = Response.fromJson(jsonDecode(res.body));
+      if (response.success == true) {
+        Navigator.of(GlobalVariable.navState.currentContext!).pop();
+      }
+      snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
+    }
   }
 
   List<FeedbackModel> _feedBacks = [];

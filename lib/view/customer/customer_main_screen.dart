@@ -1,6 +1,8 @@
+import 'package:automobileservice/controller/data_controller.dart';
 import 'package:automobileservice/menu/customer_menu_screen.dart';
 import 'package:automobileservice/view/profile.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CustomerMainScreen extends StatefulWidget {
   const CustomerMainScreen({Key? key}) : super(key: key);
@@ -22,6 +24,10 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       closeDrawer();
+      final dataController =
+          Provider.of<DataController>(context, listen: false);
+      dataController.getServices();
+      dataController.getServiceCenters();
     });
   }
 

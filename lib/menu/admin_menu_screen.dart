@@ -4,8 +4,8 @@ import 'package:automobileservice/utils/session_manager.dart';
 import 'package:automobileservice/view/admin/customers.dart';
 import 'package:automobileservice/view/admin/feedbacks.dart';
 import 'package:automobileservice/view/admin/managers.dart';
-import 'package:automobileservice/view/admin/map_screen.dart';
-import 'package:automobileservice/view/admin/service_centers.dart';
+import 'package:automobileservice/view/map_screen.dart';
+import 'package:automobileservice/view/service_centers.dart';
 import 'package:automobileservice/view/admin/services.dart';
 import 'package:automobileservice/view/login.dart';
 import 'package:flutter/material.dart';
@@ -266,7 +266,7 @@ class _AdminMenuScreenState extends State<AdminMenuScreen> {
                             width: 20,
                           ),
                           Text(
-                            "Feedback",
+                            "Feedbacks",
                             style: TextStyle(
                               fontSize: 15.0,
                             ),

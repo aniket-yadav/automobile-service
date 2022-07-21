@@ -13,7 +13,6 @@ class AddFeedback extends StatefulWidget {
 class _AddFeedbackState extends State<AddFeedback> {
   int rate = 5;
   TextEditingController commentController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -44,19 +43,6 @@ class _AddFeedbackState extends State<AddFeedback> {
             Container(
               margin: const EdgeInsets.symmetric(
                 horizontal: 15.0,
-                vertical: 20.0,
-              ),
-              child: TextField(
-                controller: emailController,
-                decoration: const InputDecoration(
-                  filled: true,
-                  hintText: "Email",
-                ),
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.symmetric(
-                horizontal: 15.0,
               ),
               child: const Text("Give rate to us"),
             ),
@@ -77,16 +63,12 @@ class _AddFeedbackState extends State<AddFeedback> {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
+                  FocusScope.of(context).requestFocus(FocusNode());
                   final comment = commentController.text.trim();
-                  final email = emailController.text.trim();
-                  if (comment.isNotEmpty && email.isNotEmpty) {
-                    final dataProvider =
-                        Provider.of<DataController>(context, listen: false);
-                    dataProvider.addFeedback(
-                        comment: comment, rate: rate, email: email);
-                  } else {
-                    print("object");
-                  }
+
+                  final dataProvider =
+                      Provider.of<DataController>(context, listen: false);
+                  dataProvider.addFeedback(comment: comment, rate: rate);
                 },
                 child: const Text("Submit"),
               ),

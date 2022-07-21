@@ -1,17 +1,18 @@
 import 'package:automobileservice/change_password.dart';
 import 'package:automobileservice/menu/manager_menu_screen.dart';
+import 'package:automobileservice/view/add_feedback.dart';
 import 'package:automobileservice/view/admin/add_manager.dart';
 import 'package:automobileservice/view/admin/add_service.dart';
 import 'package:automobileservice/view/admin/add_service_center.dart';
 
 import 'package:automobileservice/view/admin/admin_main_screen.dart';
-import 'package:automobileservice/view/admin/center_on_map.dart';
+import 'package:automobileservice/view/center_on_map.dart';
 import 'package:automobileservice/view/admin/center_selection_map.dart';
 import 'package:automobileservice/view/admin/customers.dart';
 import 'package:automobileservice/view/admin/feedbacks.dart';
 import 'package:automobileservice/view/admin/managers.dart';
-import 'package:automobileservice/view/admin/map_screen.dart';
-import 'package:automobileservice/view/admin/service_centers.dart';
+import 'package:automobileservice/view/map_screen.dart';
+import 'package:automobileservice/view/service_centers.dart';
 import 'package:automobileservice/view/admin/services.dart';
 import 'package:automobileservice/view/customer/customer_main_screen.dart';
 import 'package:automobileservice/view/customer/customer_register.dart';
@@ -41,4 +42,6 @@ final Map<String, Widget Function(BuildContext)> routes = {
   AddService.routeName: (_) => const AddService(),
   CenterSelectionMap.routeName: (_) => const CenterSelectionMap(),
   CenterOnMap.routeName: (_) => const CenterOnMap(),
+  AddFeedback.routeName: (_) => const AddFeedback(),
+  
 };
