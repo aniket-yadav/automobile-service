@@ -455,4 +455,37 @@ class DataController with ChangeNotifier {
       centers = [];
     }
   }
+
+  void assignCenter(
+      {String? managerid,
+      String? centerid,
+      String? manager,
+      String? center}) async {
+    print(managerid);
+    print(centerid);
+    Map<String, dynamic> body = {
+      "managerid": managerid,
+      "manager": manager,
+      "center": center,
+      "centerid": centerid,
+    };
+
+    var res = await serviceCallPost(
+      body: body,
+      path: services.assignCenterService,
+    );
+
+    print(res.statusCode);
+    print(res.body);
+
+    if (res.statusCode == 200) {
+      Response response = Response.fromJson(jsonDecode(res.body));
+      if (response.success == true) {
+        getManagers();
+        getServiceCenters();
+      }
+
+      snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
+    }
+  }
 }
