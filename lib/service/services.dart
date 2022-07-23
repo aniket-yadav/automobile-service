@@ -16,3 +16,6 @@ const servicesList = "api/services.php";
 const saveServiceCenter = "api/add_service_center.php";
 const serviceCentersService = "api/service_centers.php";
 const assignCenterService = "api/assign_center.php";
+const updateAdminService = "api/update_admin.php";
+const updateManagerService = "api/update_manager.php";
+const updateCustomerService = "api/update_customer.php";

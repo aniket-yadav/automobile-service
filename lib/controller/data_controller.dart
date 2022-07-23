@@ -117,7 +117,7 @@ class DataController with ChangeNotifier {
       body: body,
       path: services.addFeedbackService,
     );
-    
+
     if (res.statusCode == 200) {
       Response response = Response.fromJson(jsonDecode(res.body));
       if (response.success == true) {
@@ -489,6 +489,53 @@ class DataController with ChangeNotifier {
       if (response.success == true) {
         getManagers();
         getServiceCenters();
+      }
+
+      snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
+    }
+  }
+
+  updateProfile(
+      {String? name,
+      String? mobile,
+      String? address,
+      String? district,
+      String? city,
+      String? pincode}) async {
+    String endPoint = '';
+    if (user.role == Role.admin.name) {
+      endPoint = services.updateAdminService;
+    } else if (user.role == Role.customer.name) {
+      endPoint = services.updateCustomerService;
+    } else if (user.role == Role.manager.name) {
+      endPoint = services.updateManagerService;
+    }
+    if (endPoint.isEmpty) {
+      return;
+    }
+    Map<String, dynamic> body = {
+      "userid": user.userid,
+      "name": name,
+      "mobile": mobile,
+      "address": address,
+      "district": district,
+      "city": city,
+      "pincode": pincode,
+    };
+
+    var res = await serviceCallPost(
+      body: body,
+      path: endPoint,
+    );
+
+    print(res.statusCode);
+    print(res.body);
+
+    if (res.statusCode == 200) {
+      Response response = Response.fromJson(jsonDecode(res.body));
+      if (response.success == true) {
+        fetchProfile(role: user.role ?? '');
+        Navigator.of(GlobalVariable.navState.currentContext!).pop();
       }
 
       snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);

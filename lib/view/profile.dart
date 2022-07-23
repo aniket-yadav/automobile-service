@@ -1,5 +1,5 @@
 import 'package:automobileservice/controller/data_controller.dart';
-import 'package:automobileservice/widgets/data_tile.dart';
+import 'package:automobileservice/view/customer/update_profile.dart';
 import 'package:automobileservice/widgets/profile_photo_selection_panel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -29,12 +29,23 @@ class _ProfileState extends State<Profile> {
     final userProvider = Provider.of<DataController>(context);
     return Scaffold(
       appBar: AppBar(
-          leading: IconButton(
-        icon: const Icon(Icons.menu),
-        onPressed: () {
-          widget.openDrawer();
-        },
-      )),
+        leading: IconButton(
+          icon: const Icon(Icons.menu),
+          onPressed: () {
+            widget.openDrawer();
+          },
+        ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.of(context).pushNamed(UpdateProfile.routeName);
+            },
+            icon: const Icon(
+              Icons.edit,
+            ),
+          )
+        ],
+      ),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -104,7 +115,10 @@ class _ProfileState extends State<Profile> {
                                         role: userProvider.user.role ?? '');
                                   }
                                 },
-                                icon: const Icon(Icons.edit),
+                                icon: const Icon(
+                                  Icons.photo_camera,
+                                  color: Color(0xFFFFFFFF),
+                                ),
                               ),
                             ),
                           ],
@@ -121,9 +135,17 @@ class _ProfileState extends State<Profile> {
                           ),
                         ),
                         Text(
-                          userProvider.user.role ?? '',
+                          userProvider.user.email ?? '',
                           style: const TextStyle(
-                            fontSize: 14.0,
+                            fontSize: 12.0,
+                            color: Color(0xff797979),
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          userProvider.user.mobile ?? '',
+                          style: const TextStyle(
+                            fontSize: 12.0,
                             color: Color(0xff797979),
                             fontWeight: FontWeight.bold,
                           ),
@@ -134,13 +156,34 @@ class _ProfileState extends State<Profile> {
                 ],
               ),
             ),
-            DataTile(
-              icon: Icons.call,
-              label: userProvider.user.mobile ?? '',
-            ),
-            DataTile(
-              icon: Icons.email,
-              label: userProvider.user.email ?? '',
+            Container(
+              margin: const EdgeInsets.symmetric(
+                horizontal: 20.0,
+                vertical: 30.0,
+              ),
+              child: Row(
+                children: [
+                  const Icon(
+                    Icons.location_city,
+                    color: Color(0xFF107189),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  if (userProvider.user.address != null &&
+                      userProvider.user.city != null &&
+                      userProvider.user.district != null &&
+                      userProvider.user.pincode != null)
+                    Flexible(
+                        child: Text(
+                            " ${userProvider.user.address ?? ''}, ${userProvider.user.city ?? ''}, ${userProvider.user.district ?? ''}, ${userProvider.user.pincode ?? ''}")),
+                  if (userProvider.user.address == null &&
+                      userProvider.user.city == null &&
+                      userProvider.user.district == null &&
+                      userProvider.user.pincode == null)
+                    const Flexible(child: Text("N/A"))
+                ],
+              ),
             ),
           ],
         ),
