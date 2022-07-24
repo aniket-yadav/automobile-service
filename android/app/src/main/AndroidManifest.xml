@@ -1,9 +1,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+
     package="com.automobileservice.app">
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+     <uses-permission android:name="android.permission.INTERNET" />
+
     <!-- Provide required visibility configuration for API level 30 and above -->
 <queries>
   <!-- If your app checks for SMS support -->
@@ -17,7 +21,8 @@
    <application
         android:label="automobileservice"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        tools:node="merge">
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -41,6 +46,8 @@
         </activity>
         <meta-data android:name="com.google.android.geo.API_KEY"
                android:value="AIzaSyDzVd6TjPaTheUBOs4hFD1jouKTxOTkhA0"/>
+               <meta-data android:name="com.google.android.gms.version"
+          android:value="@integer/google_play_services_version" />
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data

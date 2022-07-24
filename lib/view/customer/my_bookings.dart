@@ -1,4 +1,6 @@
 import 'package:automobileservice/controller/data_controller.dart';
+import 'package:automobileservice/enum/booking.dart';
+import 'package:automobileservice/enum/payment.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -161,17 +163,29 @@ class _MyBookingsState extends State<MyBookings> {
                   const SizedBox(
                     height: 10,
                   ),
-                  Container(
-                    margin: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 10,
-                    ),
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      child: const Text("Pay"),
-                    ),
-                  )
+                  if (dataController.myBookings[index].status ==
+                          BookingStatus.complete.name &&
+                      dataController.myBookings[index].paymentstatus ==
+                          PaymentStatus.unpaid.name)
+                    Container(
+                      margin: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 10,
+                      ),
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          dataController.makePayment(
+                              amount:
+                                  dataController.myBookings[index].payable ??
+                                      '',
+                              orderid:
+                                  dataController.myBookings[index].reportid ??
+                                      '');
+                        },
+                        child: const Text("Pay"),
+                      ),
+                    )
                 ],
               ),
             );

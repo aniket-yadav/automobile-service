@@ -8,7 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-// key = AIzaSyDzVd6TjPaTheUBOs4hFD1jouKTxOTkhA0
+// key = AIzaSyDzVd6TjPaTheUBOs4hFD1jouKTxOTkhA0 - map
+// 1929881525ae4b356a1e187b4a889291 - cashfree - app id
+// b47ee150d2719b8200f67a524ef52896cc6898c7 - cashfree - secret key
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);

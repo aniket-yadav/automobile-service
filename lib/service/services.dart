@@ -21,3 +21,5 @@ const updateManagerService = "api/update_manager.php";
 const updateCustomerService = "api/update_customer.php";
 const bookingService = "api/booking_service.php";
 const myBookingService = "api/my_orders.php";
+const getAccessTokenService = "api/get_access_token.php";
+const verifySignatureService = "api/verify_signature.php";

@@ -28,6 +28,7 @@ import 'package:automobileservice/view/customer/customer_main_screen.dart';
 import 'package:automobileservice/view/manager/manager_main_screen.dart';
 
 import 'package:automobileservice/service/services.dart' as services;
+import 'package:cashfree_pg/cashfree_pg.dart';
 import 'package:flutter/material.dart';
 
 class DataController with ChangeNotifier {
@@ -587,8 +588,7 @@ class DataController with ChangeNotifier {
     }
   }
 
-
-List<OrderModel> _myBookings = [];
+  List<OrderModel> _myBookings = [];
 
   List<OrderModel> get myBookings => _myBookings;
 
@@ -596,8 +596,6 @@ List<OrderModel> _myBookings = [];
     _myBookings = value;
     notifyListeners();
   }
-
-
 
   void getMyBooking() async {
     Map<String, dynamic> body = {
@@ -624,7 +622,72 @@ List<OrderModel> _myBookings = [];
         myBookings = [];
       }
     } else {
-      centers = [];
+      myBookings = [];
+    }
+  }
+
+  void makePayment({required String amount, required String orderid}) async {
+    Map<String, dynamic> body = {
+      "amount": amount,
+    };
+
+    var res = await serviceCallPost(
+      body: body,
+      path: services.getAccessTokenService,
+    );
+
+    print(res.statusCode);
+    print(res.body);
+    var jsonResponse = jsonDecode(res.body);
+    if (jsonResponse['success'] == true) {
+      Map<String, String> params = {
+        'stage': jsonResponse['mode'],
+        'orderAmount': amount,
+        'orderId': jsonResponse['orderid'],
+        'orderCurrency': 'INR',
+        'customerName': user.name ?? '',
+        'customerPhone': user.mobile ?? '',
+        'customerEmail': user.email ?? '',
+        'tokenData': jsonResponse['cftoken'],
+        'appId': jsonResponse['id'],
+      };
+      CashfreePGSDK.doPayment(params).then((value) {
+        if (value != null) {
+          if (value['txStatus'] == 'SUCCESS') {
+            verifySignature(orderid:orderid,value:  value);
+          } else {
+            ScaffoldMessenger.of(GlobalVariable.navState.currentContext!)
+                .showSnackBar(
+              const SnackBar(
+                content: Text("Payment Failed"),
+              ),
+            );
+          }
+        }
+      });
+    } else {
+      snackBar(
+          jsonResponse['message'], GlobalVariable.navState.currentContext!);
+    }
+  }
+
+  verifySignature(
+      {required Map<dynamic, dynamic> value, required String orderid}) async {
+    value['bookingid'] = orderid;
+    var res = await serviceCallPost(
+      body: value.cast<String, dynamic>(),
+      path: services.verifySignatureService,
+    );
+
+    print(res.statusCode);
+    print(res.body);
+    if (res.statusCode == 200) {
+      Response response = Response.fromJson(jsonDecode(res.body));
+      if (response.success == true) {
+        getMyBooking();
+      }
+
+      snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
     }
   }
 }

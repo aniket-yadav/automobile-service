@@ -46,6 +46,7 @@ dependencies:
   location: ^4.4.0
   flutter_switch: ^0.3.2
   url_launcher: ^6.1.5
+  cashfree_pg: ^2.0.10+30
 
 dev_dependencies:
   flutter_test:
