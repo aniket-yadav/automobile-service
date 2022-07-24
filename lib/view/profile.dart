@@ -1,5 +1,7 @@
 import 'package:automobileservice/controller/data_controller.dart';
+import 'package:automobileservice/enum/roles.dart';
 import 'package:automobileservice/view/customer/update_profile.dart';
+import 'package:automobileservice/widgets/data_tile.dart';
 import 'package:automobileservice/widgets/profile_photo_selection_panel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -36,14 +38,15 @@ class _ProfileState extends State<Profile> {
           },
         ),
         actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.of(context).pushNamed(UpdateProfile.routeName);
-            },
-            icon: const Icon(
-              Icons.edit,
+          if (userProvider.user.role == Role.customer.name)
+            IconButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed(UpdateProfile.routeName);
+              },
+              icon: const Icon(
+                Icons.edit,
+              ),
             ),
-          )
         ],
       ),
       body: SingleChildScrollView(
@@ -134,57 +137,72 @@ class _ProfileState extends State<Profile> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        Text(
-                          userProvider.user.email ?? '',
-                          style: const TextStyle(
-                            fontSize: 12.0,
-                            color: Color(0xff797979),
-                            fontWeight: FontWeight.bold,
+                        if (userProvider.user.role == Role.customer.name)
+                          Text(
+                            userProvider.user.email ?? '',
+                            style: const TextStyle(
+                              fontSize: 12.0,
+                              color: Color(0xff797979),
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                        Text(
-                          userProvider.user.mobile ?? '',
-                          style: const TextStyle(
-                            fontSize: 12.0,
-                            color: Color(0xff797979),
-                            fontWeight: FontWeight.bold,
+                        if (userProvider.user.role == Role.customer.name)
+                          Text(
+                            userProvider.user.mobile ?? '',
+                            style: const TextStyle(
+                              fontSize: 12.0,
+                              color: Color(0xff797979),
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
                       ],
                     ),
                   ),
                 ],
               ),
             ),
-            Container(
-              margin: const EdgeInsets.symmetric(
-                horizontal: 20.0,
-                vertical: 30.0,
+            if (userProvider.user.role == Role.customer.name)
+              Container(
+                margin: const EdgeInsets.symmetric(
+                  horizontal: 20.0,
+                  vertical: 30.0,
+                ),
+                child: Row(
+                  children: [
+                    const Icon(
+                      Icons.location_city,
+                      color: Color(0xFF107189),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    if (userProvider.user.role == Role.customer.name)
+                      if (userProvider.user.address != null &&
+                          userProvider.user.city != null &&
+                          userProvider.user.district != null &&
+                          userProvider.user.pincode != null)
+                        Flexible(
+                            child: Text(
+                                " ${userProvider.user.address ?? ''}, ${userProvider.user.city ?? ''}, ${userProvider.user.district ?? ''}, ${userProvider.user.pincode ?? ''}")),
+                    if (userProvider.user.role == Role.customer.name)
+                      if (userProvider.user.address == null &&
+                          userProvider.user.city == null &&
+                          userProvider.user.district == null &&
+                          userProvider.user.pincode == null)
+                        const Flexible(child: Text("N/A")),
+                  ],
+                ),
               ),
-              child: Row(
-                children: [
-                  const Icon(
-                    Icons.location_city,
-                    color: Color(0xFF107189),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  if (userProvider.user.address != null &&
-                      userProvider.user.city != null &&
-                      userProvider.user.district != null &&
-                      userProvider.user.pincode != null)
-                    Flexible(
-                        child: Text(
-                            " ${userProvider.user.address ?? ''}, ${userProvider.user.city ?? ''}, ${userProvider.user.district ?? ''}, ${userProvider.user.pincode ?? ''}")),
-                  if (userProvider.user.address == null &&
-                      userProvider.user.city == null &&
-                      userProvider.user.district == null &&
-                      userProvider.user.pincode == null)
-                    const Flexible(child: Text("N/A"))
-                ],
+            if (userProvider.user.role != Role.customer.name)
+              DataTile(
+                icon: Icons.call,
+                label: userProvider.user.mobile ?? '',
               ),
-            ),
+            if (userProvider.user.role != Role.customer.name)
+              DataTile(
+                icon: Icons.email,
+                label: userProvider.user.email ?? '',
+              ),
           ],
         ),
       ),
