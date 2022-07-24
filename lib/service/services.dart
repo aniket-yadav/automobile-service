@@ -19,3 +19,4 @@ const assignCenterService = "api/assign_center.php";
 const updateAdminService = "api/update_admin.php";
 const updateManagerService = "api/update_manager.php";
 const updateCustomerService = "api/update_customer.php";
+const bookingService = "api/booking_service.php";

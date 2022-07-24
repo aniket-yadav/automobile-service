@@ -9,6 +9,7 @@ import 'package:automobileservice/model/feedback_model.dart';
 import 'package:automobileservice/model/feedback_response.dart';
 import 'package:automobileservice/model/manager_model.dart';
 import 'package:automobileservice/model/managers_response.dart';
+import 'package:automobileservice/model/order_model.dart';
 import 'package:automobileservice/model/response_model.dart';
 import 'package:automobileservice/model/service_model.dart';
 import 'package:automobileservice/model/services_response.dart';
@@ -526,6 +527,48 @@ class DataController with ChangeNotifier {
     var res = await serviceCallPost(
       body: body,
       path: endPoint,
+    );
+
+    print(res.statusCode);
+    print(res.body);
+
+    if (res.statusCode == 200) {
+      Response response = Response.fromJson(jsonDecode(res.body));
+      if (response.success == true) {
+        fetchProfile(role: user.role ?? '');
+        Navigator.of(GlobalVariable.navState.currentContext!).pop();
+      }
+
+      snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
+    }
+  }
+
+  OrderModel _order = OrderModel();
+
+  OrderModel get order => _order;
+
+  set order(OrderModel value) {
+    _order = value;
+    notifyListeners();
+  }
+
+  void book() async {
+    Map<String, dynamic> body = {
+      "centerid": order.center?.centerid,
+      "customerid": user.userid,
+      "center": jsonEncode(order.center?.toJson()),
+      "services": jsonEncode(order.services?.map((e) => e.toJson()).toList()),
+      "payable": order.services
+          ?.fold(
+              0,
+              (previousValue, element) =>
+                  (previousValue as int) + num.parse(element.charge!))
+          .toString(),
+    };
+
+    var res = await serviceCallPost(
+      body: body,
+      path: services.bookingService,
     );
 
     print(res.statusCode);
