@@ -10,6 +10,7 @@ import 'package:automobileservice/model/feedback_response.dart';
 import 'package:automobileservice/model/manager_model.dart';
 import 'package:automobileservice/model/managers_response.dart';
 import 'package:automobileservice/model/order_model.dart';
+import 'package:automobileservice/model/orders_response.dart';
 import 'package:automobileservice/model/response_model.dart';
 import 'package:automobileservice/model/service_model.dart';
 import 'package:automobileservice/model/services_response.dart';
@@ -578,10 +579,52 @@ class DataController with ChangeNotifier {
       Response response = Response.fromJson(jsonDecode(res.body));
       if (response.success == true) {
         fetchProfile(role: user.role ?? '');
-        Navigator.of(GlobalVariable.navState.currentContext!).pop();
+        Navigator.of(GlobalVariable.navState.currentContext!)
+            .popUntil(ModalRoute.withName(CustomerMainScreen.routeName));
       }
 
       snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
+    }
+  }
+
+
+List<OrderModel> _myBookings = [];
+
+  List<OrderModel> get myBookings => _myBookings;
+
+  set myBookings(List<OrderModel> value) {
+    _myBookings = value;
+    notifyListeners();
+  }
+
+
+
+  void getMyBooking() async {
+    Map<String, dynamic> body = {
+      "userid": user.userid,
+    };
+
+    var res = await serviceCallPost(
+      body: body,
+      path: services.myBookingService,
+    );
+
+    print(res.statusCode);
+    print(res.body);
+    if (res.statusCode == 200) {
+      OrdersResponse ordersResponse =
+          OrdersResponse.fromJson(jsonDecode(res.body));
+      if (ordersResponse.success == true) {
+        if (ordersResponse.data != null) {
+          myBookings = ordersResponse.data ?? [];
+        } else {
+          myBookings = [];
+        }
+      } else {
+        myBookings = [];
+      }
+    } else {
+      centers = [];
     }
   }
 }

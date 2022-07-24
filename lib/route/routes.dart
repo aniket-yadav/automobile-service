@@ -11,6 +11,7 @@ import 'package:automobileservice/view/admin/center_selection_map.dart';
 import 'package:automobileservice/view/admin/customers.dart';
 import 'package:automobileservice/view/admin/feedbacks.dart';
 import 'package:automobileservice/view/admin/managers.dart';
+import 'package:automobileservice/view/customer/my_bookings.dart';
 import 'package:automobileservice/view/customer/order_preview.dart';
 import 'package:automobileservice/view/customer/update_profile.dart';
 import 'package:automobileservice/view/map_screen.dart';
@@ -47,4 +48,5 @@ final Map<String, Widget Function(BuildContext)> routes = {
   AddFeedback.routeName: (_) => const AddFeedback(),
   UpdateProfile.routeName: (_) => const UpdateProfile(),
   OrderPreview.routeName: (_) => const OrderPreview(),
+  MyBookings.routeName: (_) => const MyBookings(),
 };

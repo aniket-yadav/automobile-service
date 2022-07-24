@@ -2,6 +2,7 @@ import 'package:automobileservice/change_password.dart';
 import 'package:automobileservice/menu/menu_header.dart';
 import 'package:automobileservice/utils/session_manager.dart';
 import 'package:automobileservice/view/add_feedback.dart';
+import 'package:automobileservice/view/customer/my_bookings.dart';
 import 'package:automobileservice/view/login.dart';
 import 'package:automobileservice/view/map_screen.dart';
 import 'package:automobileservice/view/service_centers.dart';
@@ -61,6 +62,35 @@ class _CustomerMenuScreenState extends State<CustomerMenuScreen> {
                           ),
                           Text(
                             "Profile",
+                            style: TextStyle(
+                              fontSize: 15.0,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      widget.closeDrawer!();
+                      Navigator.of(context).pushNamed(MyBookings.routeName);
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 15.0,
+                        vertical: 10.0,
+                      ),
+                      child: Row(
+                        children: const [
+                          Icon(
+                            Icons.apps,
+                            color: Color(0xFF107189),
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Text(
+                            "My Bookings",
                             style: TextStyle(
                               fontSize: 15.0,
                             ),

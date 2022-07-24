@@ -28,6 +28,7 @@ class _CustomerMainScreenState extends State<CustomerMainScreen> {
           Provider.of<DataController>(context, listen: false);
       dataController.getServices();
       dataController.getServiceCenters();
+      dataController.getMyBooking();
     });
   }
 
