@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 class CustomerMainScreen extends StatefulWidget {
   const CustomerMainScreen({Key? key}) : super(key: key);
 
-  static const routeName = "/cutomerMainScreen";
+  static const routeName = "/customerMainScreen";
   @override
   State<CustomerMainScreen> createState() => _CustomerMainScreenState();
 }

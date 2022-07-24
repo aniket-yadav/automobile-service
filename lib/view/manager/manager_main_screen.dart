@@ -1,7 +1,8 @@
-import 'package:automobileservice/menu/admin_menu_screen.dart';
+import 'package:automobileservice/controller/data_controller.dart';
 import 'package:automobileservice/menu/manager_menu_screen.dart';
 import 'package:automobileservice/view/profile.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ManagerMainScreen extends StatefulWidget {
   const ManagerMainScreen({Key? key}) : super(key: key);
@@ -23,6 +24,12 @@ class _ManagerMainScreenState extends State<ManagerMainScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       closeDrawer();
+      final dataController =
+          Provider.of<DataController>(context, listen: false);
+
+      dataController.getServices();
+
+      dataController.getServiceCenters();
     });
   }
 
@@ -120,7 +127,8 @@ class _ManagerMainScreenState extends State<ManagerMainScreen> {
               ),
             ),
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius:
+                  isDrawerOpen ? BorderRadius.circular(20) : BorderRadius.zero,
               child: Profile(openDrawer: openDrawer),
             ),
           ),

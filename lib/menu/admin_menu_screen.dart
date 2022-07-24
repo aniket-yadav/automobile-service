@@ -81,7 +81,7 @@ class _AdminMenuScreenState extends State<AdminMenuScreen> {
                       padding: const EdgeInsets.symmetric(
                         horizontal: 15.0,
                         vertical: 10.0,
-                      ),
+                      ), 
                       child: Row(
                         children: const [
                           Icon(

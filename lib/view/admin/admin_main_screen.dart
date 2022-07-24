@@ -127,7 +127,7 @@ class _AdminMainScreenState extends State<AdminMainScreen> {
                 Radius.circular(15),
               ),
             ),
-            child: ClipRRect(
+            child: ClipRRect( 
               borderRadius:
                   isDrawerOpen ? BorderRadius.circular(20) : BorderRadius.zero,
               child: Profile(openDrawer: openDrawer),

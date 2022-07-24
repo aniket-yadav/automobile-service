@@ -1,6 +1,7 @@
 import 'package:automobileservice/menu/menu_header.dart';
+import 'package:automobileservice/utils/session_manager.dart';
 import 'package:automobileservice/view/add_feedback.dart';
-import 'package:automobileservice/view/admin/feedbacks.dart';
+import 'package:automobileservice/view/login.dart';
 import 'package:flutter/material.dart';
 
 class ManagerMenuScreen extends StatefulWidget {
@@ -66,27 +67,36 @@ class _ManagerMenuScreenState extends State<ManagerMenuScreen> {
                       ),
                     ),
                   ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 15.0,
-                      vertical: 10.0,
-                    ),
-                    child: Row(
-                      children: const [
-                        Icon(
-                          Icons.logout,
-                          color: Color(0xFF107189),
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Text(
-                          "logout",
-                          style: TextStyle(
-                            fontSize: 15.0,
+                  InkWell(
+                    onTap: () async {
+                      SessionManager.signOut();
+                      if (!(await SessionManager.hasUser())) {
+                        Navigator.of(context).pushNamedAndRemoveUntil(
+                            Login.routeName, (Route<dynamic> route) => false);
+                      }
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 15.0,
+                        vertical: 10.0,
+                      ),
+                      child: Row(
+                        children: const [
+                          Icon(
+                            Icons.logout,
+                            color: Color(0xFF107189),
                           ),
-                        ),
-                      ],
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Text(
+                            "logout",
+                            style: TextStyle(
+                              fontSize: 15.0,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],
