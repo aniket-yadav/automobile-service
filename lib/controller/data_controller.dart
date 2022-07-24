@@ -162,9 +162,8 @@ class DataController with ChangeNotifier {
   }
 
   //  reset password
-  void resetPassword({required String role, required String email}) async {
+  void resetPassword({ required String email}) async {
     Map<String, dynamic> body = {
-      "role": role,
       "email": email,
     };
 

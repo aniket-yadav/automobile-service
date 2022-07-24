@@ -13,7 +13,7 @@ class ForgotPassword extends StatefulWidget {
 
 class _ForgotPasswordState extends State<ForgotPassword> {
   final TextEditingController emailController = TextEditingController();
-  Role? _selectedRole;
+  
   @override
   Widget build(BuildContext context) {
     final dataController = Provider.of<DataController>(context);
@@ -34,74 +34,14 @@ class _ForgotPasswordState extends State<ForgotPassword> {
             ),
             child: const Text("Select role"),
           ),
-          Row(
-            children: [
-              Row(
-                children: [
-                  Radio(
-                      activeColor: const Color(0xFF107189),
-                      value: Role.admin,
-                      groupValue: _selectedRole,
-                      onChanged: (v) {
-                        setState(() {
-                          _selectedRole = Role.admin;
-                        });
-                      }),
-                  const Text(
-                    "Admin",
-                    style: TextStyle(
-                      fontSize: 12.0,
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Radio(
-                      activeColor: const Color(0xFF107189),
-                      value: Role.manager,
-                      groupValue: _selectedRole,
-                      onChanged: (v) {
-                        setState(() {
-                          _selectedRole = Role.manager;
-                        });
-                      }),
-                  const Text(
-                    "Driver",
-                    style: TextStyle(
-                      fontSize: 12.0,
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Radio(
-                      activeColor: const Color(0xFF107189),
-                      value: Role.customer,
-                      groupValue: _selectedRole,
-                      onChanged: (v) {
-                        setState(() {
-                          _selectedRole = Role.customer;
-                        });
-                      }),
-                  const Text(
-                    "Employee",
-                    style: TextStyle(
-                      fontSize: 12.0,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          Container(
+           Container(
             margin: const EdgeInsets.symmetric(
               horizontal: 15.0,
               vertical: 15.0,
             ),
             child: TextField(
               controller: emailController,
+              keyboardType: TextInputType.emailAddress,
               decoration: const InputDecoration(
                 filled: true,
                 hintText: "Enter your registered email",
@@ -121,13 +61,13 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               onPressed: () {
                 FocusScope.of(context).requestFocus(FocusNode());
                 final email = emailController.text.trim();
-                if (email.isEmpty || _selectedRole == null) {
+                if (email.isEmpty ) {
                   snackBar("Please select role/enter email", context);
                   return;
                 }
 
                 dataController.resetPassword(
-                    role: _selectedRole?.name ?? '', email: email);
+                     email: email);
               },
               child: const Text("Reset Password"),
             ),
