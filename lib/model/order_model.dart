@@ -10,7 +10,7 @@ class OrderModel {
   String? customerid;
   String? servicecenterid;
   String? payable;
-  String? paymentStatus;
+  String? paymentstatus;
   String? status;
 
   OrderModel({
@@ -18,19 +18,18 @@ class OrderModel {
     this.services,
     this.customerid,
     this.payable,
-    this.paymentStatus,
+    this.paymentstatus,
     this.reportid,
     this.servicecenterid,
     this.status,
   });
 
   factory OrderModel.fromJson(Map<String, dynamic>? json) {
-    print(jsonDecode(json?['services']));
     return OrderModel(
       center: CenterModel.fromJson(jsonDecode(json?['center'])),
       customerid: json?['customerid'],
       payable: json?['payable'],
-      paymentStatus: json?['paymentStatus'],
+      paymentstatus: json?['paymentstatus'],
       reportid: json?['reportid'],
       servicecenterid: json?['servicecenterid'],
       status: json?['status'],
@@ -43,6 +42,12 @@ class OrderModel {
   Map<String, dynamic> toJson() {
     Map<String, dynamic> temp = {
       'center': center?.toJson(),
+      'customerid': customerid,
+      'payable': payable,
+      'paymentstatus': paymentstatus,
+      'reportid': reportid,
+      'servicecenterid': servicecenterid,
+      'status': status,
       'services': services?.map((e) => e.toJson()).toList(),
     };
     temp.removeWhere((key, value) => value == null);
