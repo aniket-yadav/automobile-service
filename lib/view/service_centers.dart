@@ -1,5 +1,6 @@
 import 'package:automobileservice/controller/data_controller.dart';
 import 'package:automobileservice/enum/roles.dart';
+import 'package:automobileservice/model/customer_mode.dart';
 import 'package:automobileservice/utils/snackbar.dart';
 import 'package:automobileservice/view/admin/add_service_center.dart';
 import 'package:automobileservice/view/admin/services.dart';
@@ -116,6 +117,22 @@ class ServiceCenters extends StatelessWidget {
                                         .pushNamed(Services.routeName);
                                     dataController.order.center =
                                         dataController.centers[index];
+                                    if (dataController.user.role ==
+                                        Role.customer.name) {
+                                      dataController.order.customer =
+                                          CustomerModel(
+                                        address: dataController.user.address,
+                                        city: dataController.user.city,
+                                        customerid: dataController.user.userid,
+                                        district: dataController.user.district,
+                                        email: dataController.user.email,
+                                        image: dataController.user.image,
+                                        mobile: dataController.user.mobile,
+                                        name: dataController.user.name,
+                                        pincode: dataController.user.pincode,
+                                        role: dataController.user.role,
+                                      );
+                                    }
                                   },
                                   child: const Text(
                                     "Book",
