@@ -761,4 +761,16 @@ class DataController with ChangeNotifier {
       }
     }
   }
+
+  reset() {
+    user = User();
+    feedBacks = [];
+    customers = [];
+    servicesList = [];
+    managers = [];
+    centers = [];
+    order = OrderModel();
+    myBookings = [];
+    myCenter = null;
+  }
 }

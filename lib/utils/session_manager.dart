@@ -1,4 +1,7 @@
+import 'package:automobileservice/controller/data_controller.dart';
 import 'package:automobileservice/utils/encryptor.dart';
+import 'package:automobileservice/utils/global_variable.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SessionManager {
@@ -60,6 +63,8 @@ class SessionManager {
     prefs.remove(userRole);
     prefs.remove(tokenKey);
 
+    
+        Provider.of<DataController>(GlobalVariable.navState.currentContext!).reset();
     return prefs.containsKey(userProfile) && prefs.containsKey(userRole);
   }
 }
