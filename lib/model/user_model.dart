@@ -9,6 +9,7 @@ class User {
   String? image;
   String? role;
   String? userid;
+  String? servicecenterid;
   User({
     this.name,
     this.mobile,
@@ -20,6 +21,7 @@ class User {
     this.pincode,
     this.role,
     this.userid,
+    this.servicecenterid,
   });
 
   factory User.fromJson(Map<String, dynamic>? json) {
@@ -33,6 +35,7 @@ class User {
       name: json?['name'],
       pincode: json?['pincode'],
       image: json?['image'],
+      servicecenterid: json?['servicecenterid'],
       userid: json?['adminid'] ?? json?['customerid'] ?? json?['managerid'],
     );
   }
@@ -47,7 +50,8 @@ class User {
       'mobile': mobile,
       'name': name,
       'image': image,
-      'userid':userid,
+      'servicecenterid': servicecenterid,
+      'userid': userid,
     };
     temp.removeWhere((key, value) => value == null);
 

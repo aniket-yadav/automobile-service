@@ -24,7 +24,7 @@ class _ServicesState extends State<Services> {
       appBar: AppBar(
         title: const Text("services"),
       ),
-      floatingActionButton: dataController.user.role == Role.admin.name
+      floatingActionButton: dataController.user.role != Role.customer.name
           ? FloatingActionButton(
               onPressed: () {
                 Navigator.of(context).pushNamed(AddService.routeName);
@@ -51,16 +51,20 @@ class _ServicesState extends State<Services> {
           itemCount: dataController.servicesList.length,
           itemBuilder: (context, index) {
             return InkWell(
-              onTap: () {
-                setState(() {
-                  if (_selectedService
-                      .contains(dataController.servicesList[index])) {
-                    _selectedService.remove(dataController.servicesList[index]);
-                  } else {
-                    _selectedService.add(dataController.servicesList[index]);
-                  }
-                });
-              },
+              onTap: dataController.user.role != Role.admin.name
+                  ? () {
+                      setState(() {
+                        if (_selectedService
+                            .contains(dataController.servicesList[index])) {
+                          _selectedService
+                              .remove(dataController.servicesList[index]);
+                        } else {
+                          _selectedService
+                              .add(dataController.servicesList[index]);
+                        }
+                      });
+                    }
+                  : null,
               child: Container(
                 margin: const EdgeInsets.symmetric(
                   horizontal: 15.0,

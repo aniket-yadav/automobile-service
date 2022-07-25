@@ -203,6 +203,36 @@ class _ProfileState extends State<Profile> {
                 icon: Icons.email,
                 label: userProvider.user.email ?? '',
               ),
+            if (userProvider.user.role == Role.manager.name)
+              Container(
+                margin: const EdgeInsets.symmetric(
+                  horizontal: 20.0,
+                  vertical: 30.0,
+                ),
+                child: Row(
+                  children: [
+                    const Icon(
+                      Icons.location_city,
+                      color: Color(0xFF107189),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    if (userProvider.myCenter?.address != null &&
+                        userProvider.myCenter?.city != null &&
+                        userProvider.myCenter?.district != null &&
+                        userProvider.myCenter?.pincode != null)
+                      Flexible(
+                          child: Text(
+                              " ${userProvider.myCenter?.address ?? ''}, ${userProvider.myCenter?.city ?? ''}, ${userProvider.myCenter?.district ?? ''}, ${userProvider.myCenter?.pincode ?? ''}")),
+                    if (userProvider.myCenter?.address == null &&
+                        userProvider.myCenter?.city == null &&
+                        userProvider.myCenter?.district == null &&
+                        userProvider.myCenter?.pincode == null)
+                      const Flexible(child: Text("N/A")),
+                  ],
+                ),
+              ),
           ],
         ),
       ),

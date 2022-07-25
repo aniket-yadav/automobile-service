@@ -28,8 +28,10 @@ class _ManagerMainScreenState extends State<ManagerMainScreen> {
           Provider.of<DataController>(context, listen: false);
 
       dataController.getServices();
-
       dataController.getServiceCenters();
+      dataController.getServiceCenters();
+      dataController.getCustomers();
+      dataController.myServiceCenter();
     });
   }
 

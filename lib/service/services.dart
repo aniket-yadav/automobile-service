@@ -23,3 +23,4 @@ const bookingService = "api/booking_service.php";
 const myBookingService = "api/my_orders.php";
 const getAccessTokenService = "api/get_access_token.php";
 const verifySignatureService = "api/verify_signature.php";
+const myCenterService = "api/my_center.php";

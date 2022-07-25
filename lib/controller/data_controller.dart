@@ -9,6 +9,7 @@ import 'package:automobileservice/model/feedback_model.dart';
 import 'package:automobileservice/model/feedback_response.dart';
 import 'package:automobileservice/model/manager_model.dart';
 import 'package:automobileservice/model/managers_response.dart';
+import 'package:automobileservice/model/my_center_response.dart';
 import 'package:automobileservice/model/order_model.dart';
 import 'package:automobileservice/model/orders_response.dart';
 import 'package:automobileservice/model/response_model.dart';
@@ -162,7 +163,7 @@ class DataController with ChangeNotifier {
   }
 
   //  reset password
-  void resetPassword({ required String email}) async {
+  void resetPassword({required String email}) async {
     Map<String, dynamic> body = {
       "email": email,
     };
@@ -653,7 +654,7 @@ class DataController with ChangeNotifier {
       CashfreePGSDK.doPayment(params).then((value) {
         if (value != null) {
           if (value['txStatus'] == 'SUCCESS') {
-            verifySignature(orderid:orderid,value:  value);
+            verifySignature(orderid: orderid, value: value);
           } else {
             ScaffoldMessenger.of(GlobalVariable.navState.currentContext!)
                 .showSnackBar(
@@ -687,6 +688,40 @@ class DataController with ChangeNotifier {
       }
 
       snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
+    }
+  }
+
+  CenterModel? _myCenter;
+
+  CenterModel? get myCenter => _myCenter;
+
+  set myCenter(CenterModel? value) {
+    _myCenter = value;
+    notifyListeners();
+  }
+
+  void myServiceCenter() async {
+    Map<String, dynamic> body = {
+      "centerid": user.servicecenterid,
+    };
+
+    var res = await serviceCallPost(
+      body: body,
+      path: services.myCenterService,
+    );
+
+    print(res.statusCode);
+    print(res.body);
+
+    if (res.statusCode == 200) {
+      MyCenterResponse response =
+          MyCenterResponse.fromJson(jsonDecode(res.body));
+      if (response.success == true) {
+        myCenter = response.data;
+      } else {
+        snackBar(
+            response.message ?? '', GlobalVariable.navState.currentContext!);
+      }
     }
   }
 }
