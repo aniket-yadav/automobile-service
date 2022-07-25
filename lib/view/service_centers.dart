@@ -9,10 +9,22 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:open_file/open_file.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:syncfusion_flutter_xlsio/xlsio.dart' as excel;
+import 'dart:io';
+import 'package:intl/intl.dart';
 
-class ServiceCenters extends StatelessWidget {
+class ServiceCenters extends StatefulWidget {
   const ServiceCenters({Key? key}) : super(key: key);
   static const routeName = "/serviceCenters";
+
+  @override
+  State<ServiceCenters> createState() => _ServiceCentersState();
+}
+
+class _ServiceCentersState extends State<ServiceCenters> {
   @override
   Widget build(BuildContext context) {
     final dataController = Provider.of<DataController>(context);
@@ -20,6 +32,18 @@ class ServiceCenters extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Service centers"),
+        actions: [
+          if (dataController.centers.isNotEmpty)
+            IconButton(
+              onPressed: () {
+                createExcel();
+              },
+              icon: const Icon(
+                Icons.download,
+                color: Colors.white,
+              ),
+            ),
+        ],
       ),
       floatingActionButton: dataController.user.role == Role.admin.name
           ? FloatingActionButton(
@@ -175,5 +199,69 @@ class ServiceCenters extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Future<Directory?> _getDownloadDirectory() async {
+    if (Platform.isAndroid) {
+      return Directory('/storage/emulated/0/Download');
+    }
+    // iOS directory visible to user
+    return await getApplicationDocumentsDirectory();
+  }
+
+  Future<bool> _requestPermissions() async {
+    var permissionStorage = await Permission.storage.status.isGranted;
+    if (permissionStorage) {
+      return true;
+    }
+    var status = await Permission.storage.request();
+    return status == PermissionStatus.granted;
+  }
+
+  Future<void> createExcel() async {
+    final feedbacks =
+        Provider.of<DataController>(context, listen: false).centers;
+    final isPermissionStatusGranted = await _requestPermissions();
+    final dir = await _getDownloadDirectory();
+    if (isPermissionStatusGranted) {
+      final excel.Workbook workbook = excel.Workbook();
+      final excel.Worksheet sheet = workbook.worksheets[0];
+
+      sheet.getRangeByName("A1").setText("Center Id");
+      sheet.getRangeByName("B1").setText("Name");
+      sheet.getRangeByName("C1").setText("Manager Id");
+      sheet.getRangeByName("D1").setText("Address");
+      sheet.getRangeByName("E1").setText("City");
+      sheet.getRangeByName("F1").setText("District");
+      sheet.getRangeByName("G1").setText("Pincode");
+      sheet.getRangeByName("H1").setText("Latitude");
+      sheet.getRangeByName("I1").setText("Longitude");
+      sheet.getRangeByName("J1").setText("Phone");
+      int i = 2;
+      for (var element in feedbacks) {
+        sheet.getRangeByName("A$i").setText(element.centerid);
+        sheet.getRangeByName("B$i").setText(element.name);
+        sheet.getRangeByName("C$i").setText(element.managerid);
+        sheet.getRangeByName("D$i").setText(element.address);
+        sheet.getRangeByName("E$i").setText(element.city);
+        sheet.getRangeByName("F$i").setText(element.district);
+        sheet.getRangeByName("G$i").setText(element.pincode);
+        sheet.getRangeByName("H$i").setText(element.latitude);
+        sheet.getRangeByName("I$i").setText(element.longitude);
+        sheet.getRangeByName("J$i").setText(element.phone);
+        i += 1;
+      }
+
+      final List<int> bytes = workbook.saveAsStream();
+      workbook.dispose();
+
+      // final String path = (await getApplicationSupportDirectory()).path;
+      final String path = dir?.path ?? "/storage/emulated/0/Download";
+      final String fileName =
+          "$path/${DateFormat("ddMMyyyyhhmm").format(DateTime.now())}.xlsx";
+      final File file = File(fileName);
+      await file.writeAsBytes(bytes, flush: true);
+      OpenFile.open(fileName);
+    }
   }
 }

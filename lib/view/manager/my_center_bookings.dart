@@ -35,15 +35,16 @@ class _MyCenterBookingsState extends State<MyCenterBookings> {
       appBar: AppBar(
         title: const Text("Orders"),
         actions: [
-          IconButton(
-            onPressed: () {
-              createExcel();
-            },
-            icon: const Icon(
-              Icons.print,
-              color: Colors.white,
+          if (dataController.myBookings.isNotEmpty)
+            IconButton(
+              onPressed: () {
+                createExcel();
+              },
+              icon: const Icon(
+                Icons.download,
+                color: Colors.white,
+              ),
             ),
-          ),
         ],
       ),
       body: ListView.builder(
