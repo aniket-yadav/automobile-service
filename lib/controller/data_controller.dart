@@ -634,6 +634,35 @@ class DataController with ChangeNotifier {
     }
   }
 
+  void getMyCenterBooking() async {
+    Map<String, dynamic> body = {
+      "centerid": user.servicecenterid,
+    };
+
+    var res = await serviceCallPost(
+      body: body,
+      path: services.myCenterBookings,
+    );
+
+    print(res.statusCode);
+    print(res.body);
+    if (res.statusCode == 200) {
+      OrdersResponse ordersResponse =
+          OrdersResponse.fromJson(jsonDecode(res.body));
+      if (ordersResponse.success == true) {
+        if (ordersResponse.data != null) {
+          myBookings = ordersResponse.data ?? [];
+        } else {
+          myBookings = [];
+        }
+      } else {
+        myBookings = [];
+      }
+    } else {
+      myBookings = [];
+    }
+  }
+
   void makePayment({required String amount, required String orderid}) async {
     Map<String, dynamic> body = {
       "amount": amount,

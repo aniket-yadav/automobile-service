@@ -5,6 +5,7 @@ import 'package:automobileservice/view/add_feedback.dart';
 import 'package:automobileservice/view/admin/customers.dart';
 import 'package:automobileservice/view/admin/services.dart';
 import 'package:automobileservice/view/login.dart';
+import 'package:automobileservice/view/manager/my_center_bookings.dart';
 import 'package:flutter/material.dart';
 
 class ManagerMenuScreen extends StatefulWidget {
@@ -90,6 +91,36 @@ class _ManagerMenuScreenState extends State<ManagerMenuScreen> {
                           ),
                           Text(
                             "Services",
+                            style: TextStyle(
+                              fontSize: 15.0,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      widget.closeDrawer!();
+                      Navigator.of(context)
+                          .pushNamed(MyCenterBookings.routeName);
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 15.0,
+                        vertical: 10.0,
+                      ),
+                      child: Row(
+                        children: const [
+                          Icon(
+                            Icons.apps,
+                            color: Color(0xFF107189),
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Text(
+                            "Orders",
                             style: TextStyle(
                               fontSize: 15.0,
                             ),

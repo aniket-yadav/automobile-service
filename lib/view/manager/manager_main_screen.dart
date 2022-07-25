@@ -29,9 +29,9 @@ class _ManagerMainScreenState extends State<ManagerMainScreen> {
 
       dataController.getServices();
       dataController.getServiceCenters();
-      dataController.getServiceCenters();
       dataController.getCustomers();
       dataController.myServiceCenter();
+      dataController.getMyCenterBooking();
     });
   }
 
