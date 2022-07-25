@@ -1,4 +1,6 @@
 import 'package:automobileservice/controller/data_controller.dart';
+import 'package:automobileservice/enum/roles.dart';
+import 'package:automobileservice/view/customer/update_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -153,20 +155,27 @@ class _OrderPreviewState extends State<OrderPreview> {
                         const SizedBox(
                           width: 10,
                         ),
-                        if (dataController.user.address != null &&
-                            dataController.user.city != null &&
-                            dataController.user.district != null &&
-                            dataController.user.pincode != null)
+                        if (dataController.order.customer?.address != null &&
+                            dataController.order.customer?.city != null &&
+                            dataController.order.customer?.district != null &&
+                            dataController.order.customer?.pincode != null)
                           Flexible(
                             child: Text(
-                              " ${dataController.user.address ?? ''}, ${dataController.user.city ?? ''}, ${dataController.user.district ?? ''}, ${dataController.user.pincode ?? ''}",
+                              " ${dataController.order.customer?.address ?? ''}, ${dataController.order.customer?.city ?? ''}, ${dataController.order.customer?.district ?? ''}, ${dataController.order.customer?.pincode ?? ''}",
                             ),
                           ),
-                        if (dataController.user.address == null &&
-                            dataController.user.city == null &&
-                            dataController.user.district == null &&
-                            dataController.user.pincode == null)
+                        if (dataController.order.customer?.address == null &&
+                            dataController.order.customer?.city == null &&
+                            dataController.order.customer?.district == null &&
+                            dataController.order.customer?.pincode == null)
                           InkWell(
+                            onTap:
+                                dataController.user.role == Role.customer.name
+                                    ? () {
+                                        Navigator.of(context)
+                                            .pushNamed(UpdateProfile.routeName);
+                                      }
+                                    : null,
                             child: Container(
                               padding: const EdgeInsets.all(10),
                               child: const Text("Add address"),

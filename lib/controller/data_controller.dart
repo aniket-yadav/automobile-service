@@ -557,7 +557,8 @@ class DataController with ChangeNotifier {
   void book() async {
     Map<String, dynamic> body = {
       "centerid": order.center?.centerid,
-      "customerid": user.userid,
+      "customerid": order.customer?.customerid,
+      "customer": jsonEncode(order.customer?.toJson()),
       "center": jsonEncode(order.center?.toJson()),
       "services": jsonEncode(order.services?.map((e) => e.toJson()).toList()),
       "payable": order.services
@@ -579,9 +580,16 @@ class DataController with ChangeNotifier {
     if (res.statusCode == 200) {
       Response response = Response.fromJson(jsonDecode(res.body));
       if (response.success == true) {
-        fetchProfile(role: user.role ?? '');
-        Navigator.of(GlobalVariable.navState.currentContext!)
-            .popUntil(ModalRoute.withName(CustomerMainScreen.routeName));
+        if (user.role == Role.admin.name) {
+          Navigator.of(GlobalVariable.navState.currentContext!)
+              .popUntil(ModalRoute.withName(AdminMainScreen.routeName));
+        } else if (user.role == Role.customer.name) {
+          Navigator.of(GlobalVariable.navState.currentContext!)
+              .popUntil(ModalRoute.withName(CustomerMainScreen.routeName));
+        } else if (user.role == Role.manager.name) {
+          Navigator.of(GlobalVariable.navState.currentContext!)
+              .popUntil(ModalRoute.withName(ManagerMainScreen.routeName));
+        }
       }
 
       snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);

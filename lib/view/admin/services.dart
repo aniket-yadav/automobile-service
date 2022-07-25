@@ -51,7 +51,7 @@ class _ServicesState extends State<Services> {
           itemCount: dataController.servicesList.length,
           itemBuilder: (context, index) {
             return InkWell(
-              onTap: dataController.user.role != Role.admin.name
+              onTap: dataController.user.role != Role.admin.name 
                   ? () {
                       setState(() {
                         if (_selectedService
