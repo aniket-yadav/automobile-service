@@ -25,3 +25,4 @@ const getAccessTokenService = "api/get_access_token.php";
 const verifySignatureService = "api/verify_signature.php";
 const myCenterService = "api/my_center.php";
 const myCenterBookings = "api/my_center_booking.php";
+const allBookingsService = "api/all_bookings.php";

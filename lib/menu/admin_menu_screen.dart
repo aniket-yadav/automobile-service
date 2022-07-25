@@ -4,6 +4,7 @@ import 'package:automobileservice/utils/session_manager.dart';
 import 'package:automobileservice/view/admin/customers.dart';
 import 'package:automobileservice/view/admin/feedbacks.dart';
 import 'package:automobileservice/view/admin/managers.dart';
+import 'package:automobileservice/view/manager/my_center_bookings.dart';
 import 'package:automobileservice/view/map_screen.dart';
 import 'package:automobileservice/view/service_centers.dart';
 import 'package:automobileservice/view/admin/services.dart';
@@ -151,6 +152,35 @@ class _AdminMenuScreenState extends State<AdminMenuScreen> {
                           ),
                           Text(
                             "Services",
+                            style: TextStyle(
+                              fontSize: 15.0,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      widget.closeDrawer!();
+                      Navigator.of(context).pushNamed(MyCenterBookings.routeName);
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 15.0,
+                        vertical: 10.0,
+                      ),
+                      child: Row(
+                        children: const [
+                          Icon(
+                            Icons.apps,
+                            color: Color(0xFF107189),
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Text(
+                            "All Orders",
                             style: TextStyle(
                               fontSize: 15.0,
                             ),

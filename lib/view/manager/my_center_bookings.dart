@@ -15,7 +15,7 @@ class _MyCenterBookingsState extends State<MyCenterBookings> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       final dataController =
           Provider.of<DataController>(context, listen: false);
-      dataController.getMyCenterBooking();
+      dataController.allBookings();
     });
     super.initState();
   }

@@ -663,6 +663,30 @@ class DataController with ChangeNotifier {
     }
   }
 
+  void allBookings() async {
+    var res = await serviceCallGet(
+      path: services.allBookingsService,
+    );
+
+    print(res.statusCode);
+    print(res.body);
+    if (res.statusCode == 200) {
+      OrdersResponse ordersResponse =
+          OrdersResponse.fromJson(jsonDecode(res.body));
+      if (ordersResponse.success == true) {
+        if (ordersResponse.data != null) {
+          myBookings = ordersResponse.data ?? [];
+        } else {
+          myBookings = [];
+        }
+      } else {
+        myBookings = [];
+      }
+    } else {
+      myBookings = [];
+    }
+  }
+
   void makePayment({required String amount, required String orderid}) async {
     Map<String, dynamic> body = {
       "amount": amount,
