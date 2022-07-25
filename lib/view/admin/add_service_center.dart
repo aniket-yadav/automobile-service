@@ -45,6 +45,11 @@ class _AddServiceCenterState extends State<AddServiceCenter> {
                 filled: true,
                 hintText: "Center name",
               ),
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(
+                  RegExp("[a-zA-Z. ]"),
+                ),
+              ],
             ),
           ),
           Container(
@@ -58,6 +63,11 @@ class _AddServiceCenterState extends State<AddServiceCenter> {
                 filled: true,
                 hintText: "Enter address",
               ),
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(
+                  RegExp("[a-zA-Z0-9. ]"),
+                ),
+              ],
             ),
           ),
           Container(
@@ -71,6 +81,11 @@ class _AddServiceCenterState extends State<AddServiceCenter> {
                 filled: true,
                 hintText: "District",
               ),
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(
+                  RegExp("[a-zA-Z. ]"),
+                ),
+              ],
             ),
           ),
           Container(
@@ -84,6 +99,11 @@ class _AddServiceCenterState extends State<AddServiceCenter> {
                 filled: true,
                 hintText: "Enter City",
               ),
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(
+                  RegExp("[a-zA-Z. ]"),
+                ),
+              ],
             ),
           ),
           Container(
@@ -102,6 +122,7 @@ class _AddServiceCenterState extends State<AddServiceCenter> {
                 hintText: "Enter pincode",
                 counterText: '',
               ),
+              
             ),
           ),
           if (mapLocation == null)

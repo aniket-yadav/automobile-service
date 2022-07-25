@@ -1,6 +1,7 @@
 import 'package:automobileservice/controller/data_controller.dart';
 import 'package:automobileservice/utils/snackbar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class CustomerRegister extends StatefulWidget {
@@ -47,6 +48,11 @@ class _CustomerRegisterState extends State<CustomerRegister> {
                     filled: true,
                     hintText: "Enter name",
                   ),
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(
+                      RegExp("[a-zA-Z. ]"),
+                    ),
+                  ],
                 ),
               ),
               Container(
@@ -56,6 +62,7 @@ class _CustomerRegisterState extends State<CustomerRegister> {
                 ),
                 child: TextField(
                   controller: emailController,
+                  keyboardType: TextInputType.emailAddress,
                   decoration: const InputDecoration(
                     filled: true,
                     hintText: "Enter email",
@@ -75,6 +82,8 @@ class _CustomerRegisterState extends State<CustomerRegister> {
                     prefixText: "+91",
                   ),
                   maxLength: 10,
+                  keyboardType: TextInputType.phone,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 ),
               ),
               Container(

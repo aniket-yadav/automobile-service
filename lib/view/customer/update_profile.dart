@@ -1,5 +1,6 @@
 import 'package:automobileservice/controller/data_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class UpdateProfile extends StatefulWidget {
@@ -56,6 +57,11 @@ class _UpdateProfileState extends State<UpdateProfile> {
                   filled: true,
                   hintText: "Name",
                 ),
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(
+                    RegExp("[a-zA-Z. ]"),
+                  ),
+                ],
               ),
             ),
             Container(
@@ -65,10 +71,16 @@ class _UpdateProfileState extends State<UpdateProfile> {
               ),
               child: TextField(
                 controller: mobileController,
+                keyboardType: TextInputType.phone,
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                ],
                 decoration: const InputDecoration(
                   filled: true,
                   hintText: "Mobile",
+                  counterText: '',
                 ),
+                maxLength: 10,
               ),
             ),
             Container(
@@ -82,6 +94,11 @@ class _UpdateProfileState extends State<UpdateProfile> {
                   filled: true,
                   hintText: "Address",
                 ),
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(
+                    RegExp("[a-zA-Z.0-9 ]"),
+                  ),
+                ],
               ),
             ),
             Container(
@@ -95,6 +112,11 @@ class _UpdateProfileState extends State<UpdateProfile> {
                   filled: true,
                   hintText: "District",
                 ),
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(
+                    RegExp("[a-zA-Z.0-9 ]"),
+                  ),
+                ],
               ),
             ),
             Container(
@@ -108,6 +130,11 @@ class _UpdateProfileState extends State<UpdateProfile> {
                   filled: true,
                   hintText: "City",
                 ),
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(
+                    RegExp("[a-zA-Z.0-9 ]"),
+                  ),
+                ],
               ),
             ),
             Container(

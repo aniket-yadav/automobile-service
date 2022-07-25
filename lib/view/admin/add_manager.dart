@@ -1,6 +1,7 @@
 import 'package:automobileservice/controller/data_controller.dart';
 import 'package:automobileservice/utils/snackbar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class AddManager extends StatefulWidget {
@@ -36,6 +37,11 @@ class _AddManagerState extends State<AddManager> {
                   filled: true,
                   hintText: "Enter name",
                 ),
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(
+                    RegExp("[a-zA-Z.' ]"),
+                  ),
+                ],
               ),
             ),
             Container(
@@ -45,6 +51,7 @@ class _AddManagerState extends State<AddManager> {
               ),
               child: TextField(
                 controller: emailController,
+                keyboardType: TextInputType.emailAddress,
                 decoration: const InputDecoration(
                   filled: true,
                   hintText: "Enter email",
@@ -64,6 +71,9 @@ class _AddManagerState extends State<AddManager> {
                   prefixText: "+91",
                 ),
                 maxLength: 10,
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                ],
               ),
             ),
             Container(

@@ -37,6 +37,11 @@ class _AddServiceState extends State<AddService> {
                   filled: true,
                   hintText: "Enter service",
                 ),
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(
+                    RegExp("[a-zA-Z.0-9 ]"),
+                  ),
+                ],
               ),
             ),
             Container(

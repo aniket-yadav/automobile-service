@@ -123,6 +123,7 @@ class _LoginState extends State<Login> {
                                 ),
                               ),
                               obscureText: _obscureText,
+                              keyboardType: TextInputType.visiblePassword,
                             ),
                           ),
                           InkWell(
