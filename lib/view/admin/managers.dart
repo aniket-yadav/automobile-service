@@ -17,7 +17,7 @@ class _ManagersState extends State<Managers> {
     final dataController = Provider.of<DataController>(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Managers"),
+        title: const Text("Service Dealers"),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

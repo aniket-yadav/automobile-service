@@ -44,7 +44,7 @@ class _AdminMenuScreenState extends State<AdminMenuScreen> {
             Expanded(
               child: ListView(
                 padding: EdgeInsets.zero,
-                children: [ 
+                children: [
                   InkWell(
                     onTap: () {
                       widget.closeDrawer!();
@@ -82,7 +82,7 @@ class _AdminMenuScreenState extends State<AdminMenuScreen> {
                       padding: const EdgeInsets.symmetric(
                         horizontal: 15.0,
                         vertical: 10.0,
-                      ), 
+                      ),
                       child: Row(
                         children: const [
                           Icon(
@@ -129,7 +129,7 @@ class _AdminMenuScreenState extends State<AdminMenuScreen> {
                           ),
                         ],
                       ),
-                    ), 
+                    ),
                   ),
                   InkWell(
                     onTap: () {
@@ -163,7 +163,8 @@ class _AdminMenuScreenState extends State<AdminMenuScreen> {
                   InkWell(
                     onTap: () {
                       widget.closeDrawer!();
-                      Navigator.of(context).pushNamed(MyCenterBookings.routeName);
+                      Navigator.of(context)
+                          .pushNamed(MyCenterBookings.routeName);
                     },
                     child: Container(
                       padding: const EdgeInsets.symmetric(
@@ -209,7 +210,7 @@ class _AdminMenuScreenState extends State<AdminMenuScreen> {
                             width: 20,
                           ),
                           Text(
-                            "Managers",
+                            "Service Dealers",
                             style: TextStyle(
                               fontSize: 15.0,
                             ),
@@ -247,7 +248,7 @@ class _AdminMenuScreenState extends State<AdminMenuScreen> {
                       ),
                     ),
                   ),
-                   InkWell(
+                  InkWell(
                     onTap: () {
                       widget.closeDrawer!();
                       Navigator.of(context).pushNamed(ChangePassword.routeName);
