@@ -28,3 +28,5 @@ const myCenterBookings = "api/my_center_booking.php";
 const allBookingsService = "api/all_bookings.php";
 const deleteCenter = "api/delete_center.php";
 const updateServiceCenter = "api/update_service_center.php";
+const deleteService = "api/delete_service.php";
+const updateService = "api/update_service.php";

@@ -786,7 +786,7 @@ class DataController with ChangeNotifier {
     }
   }
 
- Future<void> deleteCenter({required String id}) async {
+  Future<void> deleteCenter({required String id}) async {
     Map<String, dynamic> body = {
       "id": id,
     };
@@ -822,7 +822,7 @@ class DataController with ChangeNotifier {
     String? lng,
   }) async {
     Map<String, dynamic> body = {
-      "id":id,
+      "id": id,
       "name": name,
       "address": address,
       "district": district,
@@ -848,6 +848,53 @@ class DataController with ChangeNotifier {
     }
   }
 
+  Future<void> deleteService({required String id}) async {
+    Map<String, dynamic> body = {
+      "id": id,
+    };
+
+    var res = await serviceCallPost(
+      body: body,
+      path: services.deleteService,
+    );
+
+    print(res.statusCode);
+    print(res.body);
+
+    if (res.statusCode == 200) {
+      getServices();
+
+      Response response = Response.fromJson(jsonDecode(res.body));
+      snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
+    }
+  }
+
+  void updateService({
+    required String id,
+    required String name,
+    required String charge,
+  }) async {
+    Map<String, dynamic> body = {
+      "id": id,
+      "name": name,
+      "charge": charge,
+    };
+
+    var res = await serviceCallPost(
+      body: body,
+      path: services.updateService,
+    );
+
+    print(res.statusCode);
+    print(res.body);
+
+    if (res.statusCode == 200) {
+      Response response = Response.fromJson(jsonDecode(res.body));
+      getServices();
+      Navigator.of(GlobalVariable.navState.currentContext!).pop();
+      snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
+    }
+  }
 
   reset() {
     user = User();

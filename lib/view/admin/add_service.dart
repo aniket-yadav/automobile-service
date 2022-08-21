@@ -1,4 +1,5 @@
 import 'package:automobileservice/controller/data_controller.dart';
+import 'package:automobileservice/model/service_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -13,12 +14,45 @@ class AddService extends StatefulWidget {
 class _AddServiceState extends State<AddService> {
   TextEditingController nameController = TextEditingController();
   TextEditingController chargeController = TextEditingController();
+
+  ServiceModel? _serviceModel;
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      setState(() {
+        _serviceModel =
+            ModalRoute.of(context)?.settings.arguments as ServiceModel?;
+
+        if (_serviceModel != null) {
+          nameController.text = _serviceModel?.name ?? '';
+          chargeController.text = _serviceModel?.charge ?? '';
+        }
+      });
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final dataController = Provider.of<DataController>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text("Add Service"),
+        actions: _serviceModel != null
+            ? [
+                IconButton(
+                  onPressed: () {
+                    dataController
+                        .deleteService(id: _serviceModel?.serviceid ?? '')
+                        .then((value) {
+                      Navigator.of(context).pop();
+                    });
+                  },
+                  icon: const Icon(Icons.delete_outline),
+                )
+              ]
+            : null,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -72,7 +106,14 @@ class _AddServiceState extends State<AddService> {
                   var name = nameController.text.trim();
                   var charge = chargeController.text.trim();
                   if (name.isNotEmpty && charge.isNotEmpty) {
-                    dataController.saveService(name:name,charge:charge);
+                    if (_serviceModel != null) {
+                      dataController.updateService(
+                          id: _serviceModel?.serviceid ?? '',
+                          name: name,
+                          charge: charge);
+                    } else {
+                      dataController.saveService(name: name, charge: charge);
+                    }
                   }
                 },
                 child: const Text("Submit"),

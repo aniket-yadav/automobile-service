@@ -17,6 +17,16 @@ class _ServicesState extends State<Services> {
   final List<ServiceModel> _selectedService = [];
 
   @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      final dataController =
+          Provider.of<DataController>(context, listen: false);
+      dataController.getServices();
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final dataController = Provider.of<DataController>(context);
     return Scaffold(
@@ -51,20 +61,22 @@ class _ServicesState extends State<Services> {
           itemCount: dataController.servicesList.length,
           itemBuilder: (context, index) {
             return InkWell(
-              onTap: dataController.user.role != Role.admin.name
-                  ? () {
-                      setState(() {
-                        if (_selectedService
-                            .contains(dataController.servicesList[index])) {
-                          _selectedService
-                              .remove(dataController.servicesList[index]);
-                        } else {
-                          _selectedService
-                              .add(dataController.servicesList[index]);
-                        }
-                      });
+              onTap: () {
+                if (dataController.user.role != Role.admin.name) {
+                  setState(() {
+                    if (_selectedService
+                        .contains(dataController.servicesList[index])) {
+                      _selectedService
+                          .remove(dataController.servicesList[index]);
+                    } else {
+                      _selectedService.add(dataController.servicesList[index]);
                     }
-                  : null,
+                  });
+                } else if (dataController.user.role == Role.admin.name) {
+                  Navigator.of(context).pushNamed(AddService.routeName,
+                      arguments: dataController.servicesList[index]);
+                }
+              },
               child: Container(
                 margin: const EdgeInsets.symmetric(
                   horizontal: 15.0,
