@@ -1,6 +1,9 @@
 import 'dart:convert';
 
 import 'package:automobileservice/controller/data_controller.dart';
+import 'package:automobileservice/enum/booking.dart';
+import 'package:automobileservice/enum/payment.dart';
+import 'package:automobileservice/enum/roles.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
@@ -23,7 +26,11 @@ class _MyCenterBookingsState extends State<MyCenterBookings> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       final dataController =
           Provider.of<DataController>(context, listen: false);
-      dataController.allBookings();
+      if (dataController.user.role == Role.manager.name) {
+        dataController.getMyCenterBooking();
+      } else {
+        dataController.allBookings();
+      }
     });
     super.initState();
   }
@@ -178,6 +185,57 @@ class _MyCenterBookingsState extends State<MyCenterBookings> {
                       ),
                     ],
                   ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      if (dataController.myBookings[index].status ==
+                          BookingStatus.booked.name)
+                        TextButton(
+                          onPressed: () {
+                            dataController.updateOrder(
+                                id: dataController.myBookings[index].reportid ??
+                                    '',
+                                status: BookingStatus.confirm.name,
+                                paymentStatus: dataController
+                                        .myBookings[index].paymentstatus ??
+                                    '');
+                          },
+                          child: const Text("Mark Confirm"),
+                        ),
+                      if (dataController.myBookings[index].status ==
+                              BookingStatus.confirm.name &&
+                          dataController.myBookings[index].paymentstatus ==
+                              PaymentStatus.paid.name)
+                        TextButton(
+                          onPressed: () {
+                            dataController.updateOrder(
+                                id: dataController.myBookings[index].reportid ??
+                                    '',
+                                status: BookingStatus.complete.name,
+                                paymentStatus: dataController
+                                        .myBookings[index].paymentstatus ??
+                                    '');
+                          },
+                          child: const Text("Mark Complete"),
+                        ),
+                      if (dataController.myBookings[index].status ==
+                              BookingStatus.confirm.name &&
+                          dataController.myBookings[index].paymentstatus ==
+                              PaymentStatus.unpaid.name)
+                        TextButton(
+                          onPressed: () {
+                            dataController.updateOrder(
+                                id: dataController.myBookings[index].reportid ??
+                                    '',
+                                paymentStatus: PaymentStatus.paid.name,
+                                status:
+                                    dataController.myBookings[index].status ??
+                                        '');
+                          },
+                          child: const Text("Mark Paid"),
+                        ),
+                    ],
+                  )
                 ],
               ),
             );

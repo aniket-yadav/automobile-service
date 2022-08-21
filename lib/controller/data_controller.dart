@@ -896,6 +896,38 @@ class DataController with ChangeNotifier {
     }
   }
 
+  void updateOrder({
+    required String id,
+    required String paymentStatus,
+    required String status,
+  }) async {
+    Map<String, dynamic> body = {
+      "id": id,
+      "paymentStatus": paymentStatus,
+      "status": status,
+    };
+
+    var res = await serviceCallPost(
+      body: body,
+      path: services.updateOrder,
+    );
+
+    print(res.statusCode);
+    print(res.body);
+
+    if (res.statusCode == 200) {
+      Response response = Response.fromJson(jsonDecode(res.body));
+
+      if (user.role == Role.manager.name) {
+        getMyCenterBooking();
+      }
+      if (user.role == Role.admin.name) {
+        allBookings();
+      }
+      snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
+    }
+  }
+
   reset() {
     user = User();
     feedBacks = [];
