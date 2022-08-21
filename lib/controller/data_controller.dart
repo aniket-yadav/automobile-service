@@ -786,6 +786,69 @@ class DataController with ChangeNotifier {
     }
   }
 
+ Future<void> deleteCenter({required String id}) async {
+    Map<String, dynamic> body = {
+      "id": id,
+    };
+
+    var res = await serviceCallPost(
+      body: body,
+      path: services.deleteCenter,
+    );
+
+    print(res.statusCode);
+    print(res.body);
+
+    if (res.statusCode == 200) {
+      if (user.role == Role.admin.name) {
+        getServiceCenters();
+      } else if (user.role == Role.manager.name) {
+        getMyCenterBooking();
+      }
+
+      Response response = Response.fromJson(jsonDecode(res.body));
+      snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
+    }
+  }
+
+  void updateServiceCenter({
+    String? id,
+    String? name,
+    String? address,
+    String? district,
+    String? city,
+    String? pincode,
+    String? lat,
+    String? lng,
+  }) async {
+    Map<String, dynamic> body = {
+      "id":id,
+      "name": name,
+      "address": address,
+      "district": district,
+      "city": city,
+      "pincode": pincode,
+      "lat": lat,
+      "lng": lng,
+    };
+
+    var res = await serviceCallPost(
+      body: body,
+      path: services.updateServiceCenter,
+    );
+
+    print(res.statusCode);
+    print(res.body);
+
+    if (res.statusCode == 200) {
+      Response response = Response.fromJson(jsonDecode(res.body));
+      getServiceCenters();
+      Navigator.of(GlobalVariable.navState.currentContext!).pop();
+      snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
+    }
+  }
+
+
   reset() {
     user = User();
     feedBacks = [];

@@ -1,4 +1,5 @@
 import 'package:automobileservice/controller/data_controller.dart';
+import 'package:automobileservice/model/center_model.dart';
 import 'package:automobileservice/utils/global_variable.dart';
 import 'package:automobileservice/view/admin/center_selection_map.dart';
 import 'package:flutter/material.dart';
@@ -21,12 +22,63 @@ class _AddServiceCenterState extends State<AddServiceCenter> {
   final TextEditingController districtController = TextEditingController();
   final TextEditingController pincodeController = TextEditingController();
   LatLng? mapLocation;
+
+  CenterModel? _centerModel;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      setState(() {
+        _centerModel =
+            ModalRoute.of(context)?.settings.arguments as CenterModel?;
+        if (_centerModel != null) {
+          nameController.text = _centerModel?.name ?? '';
+          addressController.text = _centerModel?.address ?? '';
+          districtController.text = _centerModel?.district ?? '';
+          cityController.text = _centerModel?.city ?? '';
+          pincodeController.text = _centerModel?.pincode ?? '';
+
+          if (_centerModel?.latitude != null &&
+              _centerModel?.longitude != null) {
+            try {
+              setState(() {
+                mapLocation = LatLng(
+                    double.parse(_centerModel?.latitude != null &&
+                            _centerModel!.latitude!.isNotEmpty
+                        ? _centerModel!.latitude!
+                        : '19.0'),
+                    double.parse(_centerModel?.longitude != null &&
+                            _centerModel!.longitude!.isNotEmpty
+                        ? _centerModel!.longitude!
+                        : '72.0'));
+              });
+            } catch (_) {}
+          }
+        }
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final dataController = Provider.of<DataController>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text("Add Service center"),
+        actions: _centerModel != null
+            ? [
+                IconButton(
+                    onPressed: () {
+                      dataController
+                          .deleteCenter(id: _centerModel?.centerid ?? '')
+                          .then((value) {
+                        Navigator.of(context).pop();
+                      });
+                    },
+                    icon: const Icon(Icons.delete_outline))
+              ]
+            : null,
       ),
       body: SingleChildScrollView(
           child: Column(
@@ -122,53 +174,9 @@ class _AddServiceCenterState extends State<AddServiceCenter> {
                 hintText: "Enter pincode",
                 counterText: '',
               ),
-              
             ),
           ),
-          if (mapLocation == null)
-            InkWell(
-              onTap: () async {
-                var hasPermission = await Location.instance.hasPermission();
-                if (hasPermission == PermissionStatus.granted) {
-                  var latlng = await Navigator.of(
-                          GlobalVariable.navState.currentContext!)
-                      .pushNamed(CenterSelectionMap.routeName);
-                  if (latlng != null) {
-                    setState(() {
-                      mapLocation = latlng as LatLng;
-                      print(latlng.latitude);
-                      print(latlng.longitude);
-                    });
-                  }
-                } else {
-                  await Location.instance.requestPermission();
-                }
-              },
-              child: Container(
-                width: double.infinity,
-                padding: const EdgeInsets.symmetric(
-                  vertical: 10.0,
-                ),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: const Color(0xFF107189),
-                  ),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                margin: const EdgeInsets.symmetric(
-                  horizontal: 15.0,
-                  vertical: 20.0,
-                ),
-                alignment: Alignment.center,
-                child: const Text(
-                  "Location on Map",
-                  style: TextStyle(
-                    color: Color(0xFF107189),
-                    fontSize: 16.0,
-                  ),
-                ),
-              ),
-            ),
+
           if (mapLocation != null)
             Container(
               width: double.infinity,
@@ -184,6 +192,52 @@ class _AddServiceCenterState extends State<AddServiceCenter> {
                 ),
               ),
             ),
+          // if (mapLocation == null)
+          InkWell(
+            onTap: () async {
+              var hasPermission = await Location.instance.hasPermission();
+              if (hasPermission == PermissionStatus.granted) {
+                var latlng =
+                    await Navigator.of(GlobalVariable.navState.currentContext!)
+                        .pushNamed(CenterSelectionMap.routeName,
+                            arguments: mapLocation);
+                if (latlng != null) {
+                  setState(() {
+                    mapLocation = latlng as LatLng;
+                    print(latlng.latitude);
+                    print(latlng.longitude);
+                  });
+                }
+              } else {
+                await Location.instance.requestPermission();
+              }
+            },
+            child: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(
+                vertical: 10.0,
+              ),
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: const Color(0xFF107189),
+                ),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              margin: const EdgeInsets.symmetric(
+                horizontal: 15.0,
+                vertical: 20.0,
+              ),
+              alignment: Alignment.center,
+              child: Text(
+                mapLocation != null ? "Change Location" : "Location on Map",
+                style: const TextStyle(
+                  color: Color(0xFF107189),
+                  fontSize: 16.0,
+                ),
+              ),
+            ),
+          ),
+
           Container(
             margin: const EdgeInsets.symmetric(
               horizontal: 15.0,
@@ -197,15 +251,28 @@ class _AddServiceCenterState extends State<AddServiceCenter> {
                 var city = cityController.text.trim();
                 var pincode = pincodeController.text.trim();
                 if (name.isNotEmpty) {
-                  dataController.saveServiceCenter(
-                    name: name,
-                    address: address,
-                    district: district,
-                    city: city,
-                    pincode: pincode,
-                    lat: "${mapLocation?.latitude}",
-                    lng: "${mapLocation?.longitude}",
-                  );
+                  if (_centerModel != null) {
+                    dataController.updateServiceCenter(
+                      id:_centerModel?.centerid ?? '',
+                      name: name,
+                      address: address,
+                      district: district,
+                      city: city,
+                      pincode: pincode,
+                      lat: "${mapLocation?.latitude}",
+                      lng: "${mapLocation?.longitude}",
+                    );
+                  } else {
+                    dataController.saveServiceCenter(
+                      name: name,
+                      address: address,
+                      district: district,
+                      city: city,
+                      pincode: pincode,
+                      lat: "${mapLocation?.latitude}",
+                      lng: "${mapLocation?.longitude}",
+                    );
+                  }
                 }
               },
               child: const Text("Submit"),

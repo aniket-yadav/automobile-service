@@ -18,6 +18,25 @@ class _CenterSelectionMapState extends State<CenterSelectionMap> {
   Set<Marker> markers = {};
 
   @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      LatLng? temp = ModalRoute.of(context)?.settings.arguments as LatLng?;
+
+      if (temp != null) {
+        var marker = Marker(
+          markerId: const MarkerId("serviceCenter"),
+          position: temp,
+        );
+        setState(() {
+          markers.add(marker);
+          selectedLocation = temp;
+        });
+      }
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: selectedLocation != null

@@ -26,3 +26,5 @@ const verifySignatureService = "api/verify_signature.php";
 const myCenterService = "api/my_center.php";
 const myCenterBookings = "api/my_center_booking.php";
 const allBookingsService = "api/all_bookings.php";
+const deleteCenter = "api/delete_center.php";
+const updateServiceCenter = "api/update_service_center.php";

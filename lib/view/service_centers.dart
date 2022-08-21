@@ -75,11 +75,15 @@ class _ServiceCentersState extends State<ServiceCenters> {
                 itemCount: dataController.centers.length,
                 itemBuilder: (context, index) {
                   return InkWell(
-                    onTap: dataController.user.role == Role.customer.name
-                        ? () {
-                            Navigator.of(context).pushNamed(Services.routeName);
-                          }
-                        : null,
+                    onTap: () {
+                      if (dataController.user.role == Role.customer.name) {
+                        Navigator.of(context).pushNamed(Services.routeName);
+                      } else if (dataController.user.role == Role.admin.name) {
+                        Navigator.of(context).pushNamed(
+                            AddServiceCenter.routeName,
+                            arguments: dataController.centers[index]);
+                      }
+                    },
                     child: Card(
                       margin: const EdgeInsets.symmetric(
                         horizontal: 15.0,
