@@ -1,5 +1,6 @@
 import 'package:automobileservice/controller/data_controller.dart';
 import 'package:automobileservice/enum/roles.dart';
+import 'package:automobileservice/view/admin/edit_customer.dart';
 import 'package:automobileservice/view/admin/services.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -23,14 +24,19 @@ class _CustomersState extends State<Customers> {
           itemCount: dataController.customers.length,
           itemBuilder: (context, index) {
             return InkWell(
-              onTap: dataController.user.role == Role.manager.name
-                  ? () {
-                      dataController.order.customer =
-                          dataController.customers[index];
-                      dataController.order.center = dataController.myCenter;
-                      Navigator.of(context).pushNamed(Services.routeName);
-                    }
-                  : null,
+              onTap: () {
+                if (dataController.user.role == Role.manager.name) {
+                  dataController.order.customer =
+                      dataController.customers[index];
+
+                  dataController.order.center = dataController.myCenter;
+                  Navigator.of(context).pushNamed(Services.routeName);
+                }
+                if (dataController.user.role == Role.admin.name) {
+                  Navigator.of(context).pushNamed(EditCustomer.routeName,
+                      arguments: dataController.customers[index]);
+                }
+              },
               child: Card(
                 margin: const EdgeInsets.symmetric(
                   horizontal: 15.0,

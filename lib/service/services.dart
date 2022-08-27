@@ -32,3 +32,4 @@ const updateServiceCenter = "api/update_service_center.php";
 const deleteService = "api/delete_service.php";
 const updateService = "api/update_service.php";
 const updateOrder = "api/update_order.php";
+const deleteCustomer = "api/delete_customer.php";

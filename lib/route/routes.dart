@@ -6,6 +6,7 @@ import 'package:automobileservice/view/admin/add_service.dart';
 import 'package:automobileservice/view/admin/add_service_center.dart';
 
 import 'package:automobileservice/view/admin/admin_main_screen.dart';
+import 'package:automobileservice/view/admin/edit_customer.dart';
 import 'package:automobileservice/view/center_on_map.dart';
 import 'package:automobileservice/view/admin/center_selection_map.dart';
 import 'package:automobileservice/view/admin/customers.dart';
@@ -51,4 +52,5 @@ final Map<String, Widget Function(BuildContext)> routes = {
   OrderPreview.routeName: (_) => const OrderPreview(),
   MyBookings.routeName: (_) => const MyBookings(),
   MyCenterBookings.routeName: (_) => const MyCenterBookings(),
+  EditCustomer.routeName: (_) => const EditCustomer(),
 };

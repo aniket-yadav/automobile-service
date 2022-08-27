@@ -563,6 +563,43 @@ class DataController with ChangeNotifier {
     }
   }
 
+  editCustomer(
+      {String? id,
+      String? name,
+      String? mobile,
+      String? address,
+      String? district,
+      String? city,
+      String? pincode}) async {
+    Map<String, dynamic> body = {
+      "userid": id,
+      "name": name,
+      "mobile": mobile,
+      "address": address,
+      "district": district,
+      "city": city,
+      "pincode": pincode,
+    };
+
+    var res = await serviceCallPost(
+      body: body,
+      path: services.updateCustomerService,
+    );
+
+    print(res.statusCode);
+    print(res.body);
+
+    if (res.statusCode == 200) {
+      Response response = Response.fromJson(jsonDecode(res.body));
+      if (response.success == true) {
+        getCustomers();
+        Navigator.of(GlobalVariable.navState.currentContext!).pop();
+      }
+
+      snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
+    }
+  }
+
   OrderModel _order = OrderModel();
 
   OrderModel get order => _order;
@@ -942,6 +979,31 @@ class DataController with ChangeNotifier {
       if (user.role == Role.admin.name) {
         allBookings();
       }
+      snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
+    }
+  }
+
+  Future<void> deleteCustomer({required String id}) async {
+    Map<String, dynamic> body = {
+      "id": id,
+    };
+
+    var res = await serviceCallPost(
+      body: body,
+      path: services.deleteCustomer,
+    );
+
+    print(res.statusCode);
+    print(res.body);
+
+    if (res.statusCode == 200) {
+      if (user.role == Role.admin.name) {
+        getServiceCenters();
+      } else if (user.role == Role.manager.name) {
+        getMyCenterBooking();
+      }
+
+      Response response = Response.fromJson(jsonDecode(res.body));
       snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
     }
   }
