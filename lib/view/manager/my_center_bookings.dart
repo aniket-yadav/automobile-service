@@ -100,8 +100,30 @@ class _MyCenterBookingsState extends State<MyCenterBookings> {
                       ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 6,
+                  const Divider(
+                    color: Color(0xFF666666),
+                  ),
+                  const Text("Customer details:"),
+                  Text(
+                    dataController.myBookings[index].customer?.name ?? '',
+                    style: const TextStyle(
+                      fontSize: 14,
+                    ),
+                  ),
+                  Text(
+                    dataController.myBookings[index].customer?.email ?? '',
+                    style: const TextStyle(
+                      fontSize: 14,
+                    ),
+                  ),
+                  Text(
+                    dataController.myBookings[index].customer?.mobile ?? '',
+                    style: const TextStyle(
+                      fontSize: 14,
+                    ),
+                  ),
+                  const Divider(
+                    color: Color(0xFF666666),
                   ),
                   const Text("Services:"),
                   ...?dataController.myBookings[index].services?.map((e) {
