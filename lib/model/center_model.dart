@@ -9,6 +9,7 @@ class CenterModel {
   String? latitude;
   String? longitude;
   String? phone;
+  String? image;
   CenterModel({
     this.address,
     this.centerid,
@@ -20,6 +21,7 @@ class CenterModel {
     this.name,
     this.pincode,
     this.phone,
+    this.image,
   });
 
   factory CenterModel.fromJson(Map<String, dynamic>? json) {
@@ -34,6 +36,7 @@ class CenterModel {
       name: json?['name'],
       pincode: json?['pincode'],
       phone: json?['phone'],
+      image: json?['image'],
     );
   }
 
@@ -49,6 +52,7 @@ class CenterModel {
       'name': name,
       'pincode': pincode,
       'phone': phone,
+      'image': image,
     };
     temp.removeWhere((key, value) => value == null);
 

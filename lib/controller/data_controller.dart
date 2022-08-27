@@ -228,6 +228,24 @@ class DataController with ChangeNotifier {
     }
   }
 
+  uploadServiceCenterPhoto({String? image, required String id}) async {
+    Map<String, dynamic> body = {
+      "id": id,
+      "image": image ?? '',
+    };
+
+    var res = await serviceCallPost(
+      body: body,
+      path: services.uploadStoreImage,
+    );
+
+    if (res.statusCode == 200) {
+      getServiceCenters();
+      Response response = Response.fromJson(jsonDecode(res.body));
+      snackBar(response.message ?? '', GlobalVariable.navState.currentContext!);
+    }
+  }
+
 //  change password
   changePassword({
     required String role,

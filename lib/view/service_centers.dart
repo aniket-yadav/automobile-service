@@ -5,6 +5,7 @@ import 'package:automobileservice/utils/snackbar.dart';
 import 'package:automobileservice/view/admin/add_service_center.dart';
 import 'package:automobileservice/view/admin/services.dart';
 import 'package:automobileservice/view/center_on_map.dart';
+import 'package:automobileservice/widgets/store_image_selection.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
@@ -15,6 +16,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart' as excel;
 import 'dart:io';
 import 'package:intl/intl.dart';
+import 'package:automobileservice/assets/images.dart' as icons;
 
 class ServiceCenters extends StatefulWidget {
   const ServiceCenters({Key? key}) : super(key: key);
@@ -98,48 +100,133 @@ class _ServiceCentersState extends State<ServiceCenters> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Flexible(
-                                  flex: 0,
-                                  child: Text(
-                                    dataController.centers[index].name ?? '',
-                                    style: const TextStyle(
-                                      fontSize: 15.0,
-                                      fontWeight: FontWeight.w600,
+                            LayoutBuilder(builder: (context, constraints) {
+                              return Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    width: constraints.maxWidth / 2,
+                                    child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Flexible(
+                                            flex: 0,
+                                            child: Text(
+                                              dataController
+                                                      .centers[index].name ??
+                                                  '',
+                                              style: const TextStyle(
+                                                fontSize: 15.0,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                          ),
+                                          Text(
+                                            dataController
+                                                    .centers[index].city ??
+                                                '',
+                                            style: const TextStyle(
+                                              fontSize: 13.0,
+                                              fontWeight: FontWeight.normal,
+                                            ),
+                                          ),
+                                        ]),
+                                  ),
+                                  SizedBox(
+                                    width: constraints.maxWidth / 2,
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: [
+                                        Stack(
+                                          children: [
+                                            (dataController.centers[index]
+                                                            .image !=
+                                                        null &&
+                                                    dataController
+                                                        .centers[index]
+                                                        .image!
+                                                        .isNotEmpty)
+                                                ? Center(
+                                                    child: ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              4.0),
+                                                      child: Image.network(
+                                                        dataController
+                                                            .centers[index]
+                                                            .image!,
+                                                        height: 80.0,
+                                                        width: 80.0,
+                                                      ),
+                                                    ),
+                                                  )
+                                                : Image.asset(
+                                                    icons.garagePlaceholder,
+                                                    height: 80,
+                                                    width: 80,
+                                                  ),
+                                            if (dataController.user.role !=
+                                                Role.customer.name)
+                                              Positioned(
+                                                top: 0,
+                                                right: 0,
+                                                child: IconButton(
+                                                  onPressed: () async {
+                                                    await showModalBottomSheet(
+                                                      backgroundColor:
+                                                          Colors.transparent,
+                                                      context: context,
+                                                      builder: (context) =>
+                                                          Container(
+                                                        color:
+                                                            Colors.transparent,
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                          bottom: MediaQuery.of(
+                                                                  context)
+                                                              .viewInsets
+                                                              .bottom,
+                                                        ),
+                                                        child:
+                                                            StoreImageSelection(
+                                                          id: dataController
+                                                                  .centers[
+                                                                      index]
+                                                                  .centerid ??
+                                                              '',
+                                                        ),
+                                                      ),
+                                                    );
+                                                  },
+                                                  icon: Icon(
+                                                    Icons.photo_camera,
+                                                    color: Theme.of(context)
+                                                        .primaryColor,
+                                                  ),
+                                                ),
+                                              ),
+                                          ],
+                                        ),
+                                      ],
                                     ),
-                                  ),
-                                ),
-                                const Spacer(),
-                                if (dataController.centers[index].phone !=
-                                        null &&
-                                    dataController
-                                        .centers[index].phone!.isNotEmpty)
-                                  InkWell(
-                                    child: const Icon(Icons.call),
-                                    onTap: () {
-                                      launchUrlString(
-                                          "tel:+91${dataController.centers[index].phone}");
-                                    },
-                                  ),
-                              ],
-                            ),
-                            Text(
-                              dataController.centers[index].city ?? '',
-                              style: const TextStyle(
-                                fontSize: 13.0,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
+                                  )
+                                ],
+                              );
+                            }),
                             const SizedBox(
                               height: 8,
                             ),
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                TextButton(
+                                IconButton(
                                   onPressed: () {
                                     Navigator.of(context)
                                         .pushNamed(Services.routeName);
@@ -162,14 +249,21 @@ class _ServiceCentersState extends State<ServiceCenters> {
                                       );
                                     }
                                   },
-                                  child: const Text(
-                                    "Book",
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                    ),
+                                  icon: const Icon(
+                                    Icons.event_available_outlined,
                                   ),
                                 ),
-                                const Spacer(),
+                                if (dataController.centers[index].phone !=
+                                        null &&
+                                    dataController
+                                        .centers[index].phone!.isNotEmpty)
+                                  InkWell(
+                                    child: const Icon(Icons.call),
+                                    onTap: () {
+                                      launchUrlString(
+                                          "tel:+91${dataController.centers[index].phone}");
+                                    },
+                                  ),
                                 IconButton(
                                   onPressed: () {
                                     var lat = dataController
